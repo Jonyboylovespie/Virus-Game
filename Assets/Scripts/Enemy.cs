@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     public float health;
     public Projectile projectile;
-    public Rigidbody2D rigidBody;
+    public GameObject projectilePrefab;
+    public float launchForce = 50f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -23,6 +21,17 @@ public class Enemy : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+    }
+
+    private void Update()
+    {
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        Physics2D.IgnoreCollision(transform.GetComponent<BoxCollider2D>(), projectile.GetComponent<BoxCollider2D>(), true);
+        if (rb != null)
+        {
+            rb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
         }
     }
 }

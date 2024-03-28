@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float health;
     public GameObject projectilePrefab;
     public GameObject leftFirePoint;
     public GameObject rightFirePoint;
@@ -87,5 +88,24 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(currentFirePoint.forward * launchForce, ForceMode.Impulse);
         }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        if (collision.gameObject.CompareTag("Projectile 1"))
+        {
+            health -= projectile.damage;
+            Destroy(collision.gameObject);
+            if (health <= 0)
+            {
+                Respawn();
+            }
+        }
+    }
+
+    void Respawn()
+    {
+        
     }
 }

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     public LayerMask groundLayer;
+    public GameObject checkPoints;
 
     void Start()
     {
@@ -37,7 +38,6 @@ public class PlayerController : MonoBehaviour
             if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                Debug.Log("Jump Pressed");
             }
         }
 
@@ -106,6 +106,15 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
-        
+        int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
+        for (int i = 0; i < checkPoints.transform.childCount; i++)
+        {
+            GameObject childObject = checkPoints.transform.GetChild(i).gameObject;
+            if (childObject.name.Contains(checkPointNumber.ToString()))
+            {
+                transform.position = childObject.transform.position;
+                break;
+            }
+        }
     }
 }

@@ -7,11 +7,11 @@ public class PlayerController : MonoBehaviour
     public GameObject rightFirePoint;
     public float launchForce = 10f;
     public float jumpForce = 10f;
-
     public Transform currentFirePoint;
     public float moveSpeed = 10f;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
+    public LayerMask groundLayer;
 
     void Start()
     {
@@ -33,8 +33,11 @@ public class PlayerController : MonoBehaviour
         // Jump Controller
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            Debug.Log("Jump Pressed");
+            if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                Debug.Log("Jump Pressed");
+            }
         }
 
         // Switches which side the projectile comes from. Also toggles the left and right fire points

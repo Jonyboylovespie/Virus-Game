@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -25,11 +23,5 @@ public class Projectile : MonoBehaviour
             direction = Vector2.left;
         }
         rb.velocity = direction.normalized * player.launchForce;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

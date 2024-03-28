@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject projectile = Instantiate(projectilePrefab, currentFirePoint.position, currentFirePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        Physics2D.IgnoreCollision(transform.GetComponent<CircleCollider2D>(), projectile.GetComponent<BoxCollider2D>(), true);
         if (rb != null)
         {
             rb.AddForce(currentFirePoint.forward * launchForce, ForceMode.Impulse);

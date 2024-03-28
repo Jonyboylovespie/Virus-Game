@@ -11,16 +11,19 @@ public class PlayerController : MonoBehaviour
     public Transform currentFirePoint;
     public float moveSpeed = 10f;
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         currentFirePoint = rightFirePoint.transform; // Start with the right fire point
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
   
-    
-
     void Update()
     {
+        spriteRenderer.flipX = Input.GetAxis("Horizontal") < 0; // Flip the sprite when moving left
+
         float moveDirection = Input.GetAxisRaw("Horizontal"); // Assuming character moves on the X-axis
         
 

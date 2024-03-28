@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         // Jump Controller
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             Debug.Log("Jump Pressed");

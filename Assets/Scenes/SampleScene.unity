@@ -427,7 +427,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  checkPoints: {fileID: 0}
+  checkPoints: {fileID: 1447424807}
 --- !u!50 &1291296735
 Rigidbody2D:
   serializedVersion: 4

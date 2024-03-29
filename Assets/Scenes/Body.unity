@@ -719,6 +719,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7283623088674036347, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
+      propertyPath: Blood
+      value: 
+      objectReference: {fileID: 9186955404639178329, guid: 573eece0c877ce443a69ea8fbe238ec0, type: 3}
+    - target: {fileID: 7283623088674036347, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
       propertyPath: jumpForce
       value: 30
       objectReference: {fileID: 0}

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer leftArm;
     public GameObject checkPoints;
     public GameObject projectiles;
+    public GameObject Blood;
     
     void Start()
     {
@@ -89,6 +90,9 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
+        Vector3 bloodPos = transform.position;
+        bloodPos.y += 2;
+        Instantiate(Blood, bloodPos, Quaternion.identity);
         int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
         for (int i = 0; i < checkPoints.transform.childCount; i++)
         {

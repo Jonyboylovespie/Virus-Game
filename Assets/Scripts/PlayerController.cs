@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentFirePoint = rightFirePoint.transform; // Start with the right fire point
         spriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer leftSpriteRenderer = leftFirePoint.GetComponent<SpriteRenderer>();
     }
   
     void Update()

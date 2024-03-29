@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public GameObject checkPoints;
     public GameObject projectiles;
     public GameObject Blood;
+    public bool dead;
     
     void Start()
     {
@@ -31,22 +32,25 @@ public class PlayerController : MonoBehaviour
     }
   
     void Update()
-    {     
-        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
-        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
-
-        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
-        if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); }
-
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
+    {
+        if (!dead)
         {
-            if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            }
-        }
+            if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
+            if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
 
-        Animate();
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
+            if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); }
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
+            {
+                if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                }
+            }
+
+            Animate();
+        }
     }
 
     void Animate() 
@@ -58,8 +62,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void LaunchProjectile()
-    {   
-
+    {
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         projectile.transform.SetParent(projectiles.transform);
@@ -82,8 +85,9 @@ public class PlayerController : MonoBehaviour
         {
             health -= projectile.damage;
             Destroy(collision.gameObject);
-            if (health <= 0)
+            if (!dead && health <= 0)
             {
+                dead = true;
                 Respawn();
             }
         }
@@ -103,6 +107,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator WaitForParticles()
     {
         yield return new WaitForSeconds(1);
+        dead = false;
         foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
         {
             spriteRenderer.enabled = true;

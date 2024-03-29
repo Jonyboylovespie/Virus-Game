@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        // GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         Physics2D.IgnoreCollision(transform.GetComponent<BoxCollider2D>(), projectile.GetComponent<BoxCollider2D>(), true);
         if (rb != null)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -93,6 +94,11 @@ public class PlayerController : MonoBehaviour
         Vector3 bloodPos = transform.position;
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
+        StartCoroutine(WaitForOneSecond());
+    }
+    IEnumerator WaitForOneSecond()
+    {
+        yield return new WaitForSeconds(1);
         int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
         for (int i = 0; i < checkPoints.transform.childCount; i++)
         {

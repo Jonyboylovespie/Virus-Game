@@ -4,37 +4,38 @@ public class PlayerController : MonoBehaviour
 {
     public float health;
     public GameObject projectilePrefab;
-    public GameObject leftFirePoint;
-    public GameObject rightFirePoint;
     public float launchForce = 10f;
-    public float jumpForce = 10f;
-    public Transform currentFirePoint;
+    public float jumpForce = 30f;
     public float moveSpeed = 10f;
-    Rigidbody2D rb;
-    SpriteRenderer spriteRenderer;
     public LayerMask groundLayer;
-    public GameObject checkPoints;
-
+    public GameObject checkpoint = null;
+    Vector2 direction = new Vector2(1, 0); 
+    Vector3 firePoint;
+    Rigidbody2D rb;
+    SpriteRenderer body; 
+    SpriteRenderer legs;
+    SpriteRenderer rightArm;
+    SpriteRenderer leftArm;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentFirePoint = rightFirePoint.transform; // Start with the right fire point
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        SpriteRenderer leftSpriteRenderer = leftFirePoint.GetComponent<SpriteRenderer>();
+        firePoint = transform.Find("FirePoint").localPosition;
+        body = transform.Find("Body").GetComponent<SpriteRenderer>();
+        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
+        leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
     }
   
     void Update()
-    {
-        spriteRenderer.flipX = Input.GetAxis("Horizontal") < 0; // Flip the sprite when moving left
+    {     
+        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
+        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
 
-        float moveDirection = Input.GetAxisRaw("Horizontal"); // Assuming character moves on the X-axis
-        
+        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
+        if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); }
 
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
-        // Jump Controller
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
         {
             if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
             {
@@ -42,58 +43,37 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Switches which side the projectile comes from. Also toggles the left and right fire points
-        if (moveDirection < 0)
-        {
-            ChangeCurrentFirePoint(0);
-
-        }
-        else if (moveDirection > 0)
-        {
-            ChangeCurrentFirePoint(1);
-        }
-
-        if (Input.GetButtonDown("Fire1")) // Change "Fire1" to your desired input button
-        {
-            LaunchProjectile();
-        }
+        Animate();
     }
 
-    void ChangeCurrentFirePoint(int firePointSide)
+    void Animate() 
     {
-        // fire point side 0 = left, 1 = right
-        if (firePointSide == 0)
-        {
-            currentFirePoint = leftFirePoint.transform;
-            rightFirePoint.SetActive(false);
-            leftFirePoint.SetActive(true);
-        }else if (firePointSide == 1)
-        {
-            currentFirePoint = rightFirePoint.transform;
-            leftFirePoint.SetActive(false);
-            rightFirePoint.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("Invalid Input on function (ChangeCurrentFirePoint)");
-        }
+        body.flipX = direction.x < 0;
+        legs.flipX = direction.x < 0;
+        rightArm.flipX = direction.x < 0;
+        leftArm.flipX = direction.x < 0;
     }
-
 
     void LaunchProjectile()
-    {
-        GameObject projectile = Instantiate(projectilePrefab, currentFirePoint.position, currentFirePoint.rotation);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        Physics2D.IgnoreCollision(transform.GetComponent<CircleCollider2D>(), projectile.GetComponent<BoxCollider2D>(), true);
-        if (rb != null)
+    {   
+
+        Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
+        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+        Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        projectileScript.origin = "player"; 
+
+        if (projectileRB != null)
         {
-            rb.AddForce(currentFirePoint.forward * launchForce, ForceMode.Impulse);
+            projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
         }
     }
     
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        if (projectile != null && projectile.origin == "player") return;
         if (collision.gameObject.CompareTag("Projectile 1"))
         {
             health -= projectile.damage;
@@ -107,15 +87,8 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
-        int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
-        for (int i = 0; i < checkPoints.transform.childCount; i++)
-        {
-            GameObject childObject = checkPoints.transform.GetChild(i).gameObject;
-            if (childObject.name.Contains(checkPointNumber.ToString()))
-            {
-                transform.position = childObject.transform.position;
-                break;
-            }
-        }
+        //if (checkpoint == null) return;
+        transform.position = checkpoint.transform.position;;
+        health = 100;
     }
 }

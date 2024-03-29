@@ -94,9 +94,9 @@ public class PlayerController : MonoBehaviour
         Vector3 bloodPos = transform.position;
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
-        StartCoroutine(WaitForOneSecond());
+        StartCoroutine(WaitForParticles());
     }
-    IEnumerator WaitForOneSecond()
+    IEnumerator WaitForParticles()
     {
         yield return new WaitForSeconds(1);
         int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;

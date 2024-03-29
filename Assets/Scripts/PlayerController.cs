@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 30f;
     public float moveSpeed = 10f;
     public LayerMask groundLayer;
-    public GameObject checkpoint = null;
     Vector2 direction = new Vector2(1, 0); 
     Vector3 firePoint;
     Rigidbody2D rb;
@@ -16,6 +15,8 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer legs;
     SpriteRenderer rightArm;
     SpriteRenderer leftArm;
+    public GameObject checkPoints;
+    public GameObject projectiles;
     
     void Start()
     {
@@ -59,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+        projectile.transform.SetParent(projectiles.transform);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
 
         Projectile projectileScript = projectile.GetComponent<Projectile>();
@@ -87,8 +89,21 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
-        //if (checkpoint == null) return;
-        transform.position = checkpoint.transform.position;;
-        health = 100;
+        int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
+        for (int i = 0; i < checkPoints.transform.childCount; i++)
+        {
+            GameObject childObject = checkPoints.transform.GetChild(i).gameObject;
+            if (childObject.name.Contains(checkPointNumber.ToString()))
+            {
+                transform.position = childObject.transform.position;
+                break;
+            }
+        }
+        for (int i = 0; i < projectiles.transform.childCount; i++)
+        {
+            GameObject childObject = projectiles.transform.GetChild(i).gameObject;
+            Destroy(childObject);
+        }
+        health = 200;
     }
 }

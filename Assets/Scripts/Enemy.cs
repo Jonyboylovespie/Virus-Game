@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     public float health = 3;
     public GameObject projectilePrefab;
+    public GameObject projectiles;
     public float cooldownSeconds = 1f;
     public float cooldown = 0f;
     public float launchForce = 10f;
@@ -45,6 +46,7 @@ public class Enemy : MonoBehaviour
 
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+        projectile.transform.SetParent(projectiles.transform);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
 
         Projectile projectileScript = projectile.GetComponent<Projectile>();

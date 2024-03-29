@@ -94,11 +94,19 @@ public class PlayerController : MonoBehaviour
         Vector3 bloodPos = transform.position;
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
+        foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
+        {
+            spriteRenderer.enabled = false;
+        }
         StartCoroutine(WaitForParticles());
     }
     IEnumerator WaitForParticles()
     {
         yield return new WaitForSeconds(1);
+        foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
+        {
+            spriteRenderer.enabled = true;
+        }
         int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
         for (int i = 0; i < checkPoints.transform.childCount; i++)
         {

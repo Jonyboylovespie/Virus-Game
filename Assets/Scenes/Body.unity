@@ -249,6 +249,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
+      propertyPath: Blood
+      value: 
+      objectReference: {fileID: 9186955404639178329, guid: 573eece0c877ce443a69ea8fbe238ec0, type: 3}
+    - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
       propertyPath: cooldown
       value: 2
       objectReference: {fileID: 0}
@@ -562,6 +566,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
+      propertyPath: Blood
+      value: 
+      objectReference: {fileID: 9186955404639178329, guid: 573eece0c877ce443a69ea8fbe238ec0, type: 3}
+    - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
       propertyPath: cooldown
       value: 1
       objectReference: {fileID: 0}
@@ -763,6 +771,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
+      propertyPath: Blood
+      value: 
+      objectReference: {fileID: 9186955404639178329, guid: 573eece0c877ce443a69ea8fbe238ec0, type: 3}
     - target: {fileID: -690313807609609441, guid: 5ccf3ce6bed77e747854f47553cd0cbe, type: 3}
       propertyPath: projectiles
       value: 

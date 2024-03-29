@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     SpriteRenderer body;
     SpriteRenderer legs;
     SpriteRenderer face;
+    public GameObject Blood;
 
     void Start()
     {
@@ -36,6 +37,9 @@ public class Enemy : MonoBehaviour
 
             if (health <= 0)
             {
+                Vector3 bloodPos = transform.position;
+                bloodPos.y += 2;
+                Instantiate(Blood, bloodPos, Quaternion.identity);
                 Destroy(gameObject);
             }
         }

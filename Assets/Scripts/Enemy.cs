@@ -2,20 +2,37 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float health;
-    public Projectile projectile;
+    public float health = 3;
     public GameObject projectilePrefab;
-    public float launchForce = 50f;
+    public float cooldownSeconds = 1f;
+    public float cooldown = 0f;
+    public float launchForce = 10f;
+    Vector3 direction = new Vector3(1, 0, 0);
+    Vector3 firePoint;
+    GameObject player;
+    SpriteRenderer body;
+    SpriteRenderer legs;
+    SpriteRenderer face;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void Start()
     {
-        projectile = collision.gameObject.GetComponent<Projectile>();
+        player = GameObject.Find("player");
+        firePoint = transform.Find("FirePoint").localPosition;
+        body = transform.Find("Body").GetComponent<SpriteRenderer>();
+        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        face = transform.Find("Face").GetComponent<SpriteRenderer>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        if (projectile != null && projectile.origin == "enemy") return;
+
         if (collision.gameObject.CompareTag("Projectile 1"))
         {
-            health -= projectile.damage; // Subtracts Health from enemy
-            Destroy(collision.gameObject); // Destorys projectile on contact with enemy
-            
-            // If enemy health below or equal to 0, destory enemy
+            Destroy(collision.gameObject); // Destroy the projectile on contact with the enemy
+            health -= 1; // Reduce health by a fixed amount (adjust as needed)
+
             if (health <= 0)
             {
                 Destroy(gameObject);
@@ -23,14 +40,43 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void LaunchProjectile()
+    {
+
+        Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
+        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+        Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        projectileScript.origin = "enemy"; // Set the origin to the current enemy
+
+        // Apply force to the projectile
+        if (projectileRB != null)
+        {
+            projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
+        }
+    }
+
     private void Update()
     {
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        Physics2D.IgnoreCollision(transform.GetComponent<BoxCollider2D>(), projectile.GetComponent<BoxCollider2D>(), true);
-        if (rb != null)
+        if (player.transform.position.x < transform.position.x) { direction = new Vector3(-1, 0, 0);} else { direction = new Vector3(1, 0, 0); } // Face the player
+
+        if (cooldown > 0)
         {
-            rb.AddForce(transform.forward * launchForce, ForceMode.Impulse);
+            cooldown -= Time.deltaTime;
         }
+        else
+        {
+            LaunchProjectile();
+            cooldown = cooldownSeconds;
+        }
+        Animate();
+    }
+
+    void Animate()
+    {
+        body.flipX = direction.x < 0;
+        legs.flipX = direction.x < 0;
+        face.flipX = direction.x < 0;
     }
 }

@@ -6,9 +6,10 @@ public class CheckPoint : MonoBehaviour
     {
         if (collider.name == "player")
         {
-            CheckPointController parentScript = gameObject.GetComponentInParent<CheckPointController>();
-            int checkPointNumber = int.Parse(gameObject.name.Substring(10));
-            parentScript.ChangeCheckPoint(checkPointNumber);
+            Save save = GameObject.Find("Save").GetComponent<Save>();
+            save.checkpointReached = true;
+            save.checkpointPosition = transform.position;
+            save.checkpointScene = gameObject.scene.name;
         }
     }
 }

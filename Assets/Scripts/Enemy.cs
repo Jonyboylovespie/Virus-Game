@@ -6,22 +6,22 @@ public class Enemy : MonoBehaviour
     public GameObject projectilePrefab;
     public float cooldownSeconds = 1f;
     public float cooldown = 0f;
-    public float launchForce = 10f;
+    public float launchForce = 20f;
     Vector3 direction = new Vector3(1, 0, 0);
     Vector3 firePoint;
     GameObject player;
-    SpriteRenderer body;
-    SpriteRenderer legs;
-    SpriteRenderer face;
     public GameObject Blood;
+    Collider2D Range;
 
     void Start()
     {
+
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+        if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
+
         player = GameObject.Find("player");
         firePoint = transform.Find("FirePoint").localPosition;
-        body = transform.Find("Body").GetComponent<SpriteRenderer>();
-        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
-        face = transform.Find("Face").GetComponent<SpriteRenderer>();
+        Range = transform.Find("Range").GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,28 +37,29 @@ public class Enemy : MonoBehaviour
                 Vector3 bloodPos = transform.position;
                 bloodPos.y += 2;
                 Instantiate(Blood, bloodPos, Quaternion.identity);
+
+                Save save = GameObject.Find("Save").GetComponent<Save>();
+                save.SaveObject(gameObject.name, gameObject.scene.name);
+
                 Destroy(gameObject);
             }
         }
     }
 
-
     private void Update()
     {
-        if (player.transform.position.x < transform.position.x) { direction = new Vector3(-1, 0, 0);} else { direction = new Vector3(1, 0, 0); } // Face the player
-
-        if (cooldown > 0)
-        {
-            cooldown -= Time.deltaTime;
-        }
-        else
-        {
-            LaunchProjectile();
-            cooldown = cooldownSeconds;
-        }
         Animate();
-    }
 
+        if (!Range.OverlapPoint(player.transform.position)) return;
+        
+        if (player.transform.position.x < transform.position.x) { direction = new Vector3(-1, 0, 0);} 
+        else { direction = new Vector3(1, 0, 0); } // Set direction based on player position
+        if (cooldown > 0) { cooldown -= Time.deltaTime; return; }
+        LaunchProjectile();
+        cooldown = cooldownSeconds;
+        
+    }
+    
     void LaunchProjectile()
     {
 
@@ -76,6 +77,9 @@ public class Enemy : MonoBehaviour
 
     void Animate()
     {
+        SpriteRenderer body = transform.Find("Body").GetComponent<SpriteRenderer>();
+        SpriteRenderer legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        SpriteRenderer face = transform.Find("Face").GetComponent<SpriteRenderer>();
         body.flipX = direction.x < 0;
         legs.flipX = direction.x < 0;
         face.flipX = direction.x < 0;

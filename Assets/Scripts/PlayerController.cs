@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public float health;
     public GameObject projectilePrefab;
-    public float launchForce = 10f;
-    public float jumpForce = 30f;
-    public float moveSpeed = 10f;
+    public float launchForce = 40f;
+    public float jumpForce = 35f;
+    public float moveSpeed = 15f;
     public LayerMask groundLayer;
     Vector2 direction = new Vector2(1, 0); 
     Vector3 firePoint;
@@ -15,8 +16,6 @@ public class PlayerController : MonoBehaviour
     float coyoteTime = 0.1f; // seconds after falling that player can still jump
     Rigidbody2D rb;
     Collider2D col;
-    public GameObject checkPoints;
-    public GameObject projectiles;
     public GameObject Blood;
     public bool dead;
     
@@ -24,52 +23,47 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+        if (save.checkpointReached) { transform.position = save.checkpointPosition; }
+        
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
+
     }
   
     void Update()
     {
-        if (!dead)
+        if (dead) { rb.velocity = new Vector2(0f,0f); return; }
+        
+        falling += Time.deltaTime;
+        if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
         {
-
-            falling += Time.deltaTime;
-            if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
-            {
-                if (falling > coyoteTime) { 
-                    squash = 0.2f;
-                    //play landing sound
-                }
-                falling = 0;
+            if (falling > coyoteTime) { 
+                squash = 0.2f;
+                //play landing sound
             }
-
-            if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
-            if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
-
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                LaunchProjectile(); 
-                
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
-                {
-                if (falling < coyoteTime) 
-                {
-                    squash = -0.2f;
-                    falling = coyoteTime;
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                }
-            }
-
-            Animate();
+            falling = 0;
         }
-        else
-        {
-            rb.velocity = new Vector2(0f,0f);
+
+        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
+        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
+
+        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
+        if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); } // Fire Projectile
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
+            {
+            if (falling < coyoteTime) 
+            {
+                squash = -0.2f;
+                falling = coyoteTime;
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
         }
+
+        Animate();
+        
     }
 
     void Animate() 
@@ -104,18 +98,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void LaunchProjectile()
-    {
-        
+    { 
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
-        projectile.transform.SetParent(projectiles.transform);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-
-        if (projectileRB != null)
-        {
-            projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
-        }
-
+        if (projectileRB != null) { projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse); }
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -128,48 +115,31 @@ public class PlayerController : MonoBehaviour
             if (!dead && health <= 0)
             {
                 dead = true;
-                Respawn();
+                StartCoroutine(Respawn());
             }
         }
+        
     }
 
-    void Respawn()
+    IEnumerator Respawn()
     {
         Vector3 bloodPos = transform.position;
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
+        
         foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
         {
             spriteRenderer.enabled = false;
         }
-        StartCoroutine(WaitForParticles());
-    }
-    
-    IEnumerator WaitForParticles()
-    {
-        yield return new WaitForSeconds(1);
+        
+        yield return new WaitForSeconds(1f);
+
         dead = false;
-        foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
-        {
-            spriteRenderer.enabled = true;
-        }
-        int checkPointNumber = checkPoints.GetComponent<CheckPointController>().currentCheckPoint;
-        for (int i = 0; i < checkPoints.transform.childCount; i++)
-        {
-            GameObject childObject = checkPoints.transform.GetChild(i).gameObject;
-            if (childObject.name.Contains(checkPointNumber.ToString()))
-            {
-                transform.position = childObject.transform.position;
-                break;
-            }
-        }
-        for (int i = 0; i < projectiles.transform.childCount; i++)
-        {
-            GameObject childObject = projectiles.transform.GetChild(i).gameObject;
-            Destroy(childObject);
-        }
-        health = 200;
+   
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+        if (save.checkpointScene != null) { SceneManager.LoadScene(save.checkpointScene); }
+        else { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+       
     }
 
-    
 }

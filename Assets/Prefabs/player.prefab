@@ -218,7 +218,7 @@ Transform:
   m_GameObject: {fileID: 1576103756797343404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.34, y: -1.94, z: 0}
+  m_LocalPosition: {x: -1.34, y: -1.94, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -243,14 +243,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 200
   projectilePrefab: {fileID: 7979304992771041309, guid: 0dd2ff14cc3cac74d9751246d554566a, type: 3}
-  launchForce: 50
-  jumpForce: 25
-  moveSpeed: 10
+  launchForce: 40
+  jumpForce: 35
+  moveSpeed: 15
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  checkPoints: {fileID: 0}
-  projectiles: {fileID: 0}
   Blood: {fileID: 915823799905539702, guid: eb47f22b973be1c4e8bae4d3635cb1a3, type: 3}
   dead: 0
 --- !u!50 &771936618245301440

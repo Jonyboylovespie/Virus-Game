@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5037027766264789888}
   - component: {fileID: 8867649785131152694}
+  - component: {fileID: 1397626760126641526}
   m_Layer: 0
   m_Name: LeftArm
   m_TagString: Untagged
@@ -168,6 +169,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1397626760126641526
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234051873022324022}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ace9f07a0e82c87469f5602b727caced, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1576103756797343404
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +276,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  checkpoint: {fileID: 0}
+  checkPoints: {fileID: 0}
+  projectiles: {fileID: 0}
+  Blood: {fileID: 0}
+  dead: 0
 --- !u!61 &3013163256913883237
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -341,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 861017760191787857}
   - component: {fileID: 253958733207432598}
+  - component: {fileID: 7902411233004528827}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -415,6 +441,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7902411233004528827
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089380097475406224}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b8b8ce5a018a71349ba5a7f12c3ef1ab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8466952812604207236
 GameObject:
   m_ObjectHideFlags: 0

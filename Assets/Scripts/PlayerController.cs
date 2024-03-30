@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     Vector2 direction = new Vector2(1, 0); 
     Vector3 firePoint;
+    float falling = 0; // seconds scince last grounded for animation and coyote time
+    float coyoteTime = 0.1f; // seconds after falling that player can still jump
     Rigidbody2D rb;
     SpriteRenderer body; 
     SpriteRenderer legs;
+    Animator legsAnimator;
     SpriteRenderer rightArm;
     SpriteRenderer leftArm;
     public GameObject checkPoints;
@@ -27,6 +30,8 @@ public class PlayerController : MonoBehaviour
         firePoint = transform.Find("FirePoint").localPosition;
         body = transform.Find("Body").GetComponent<SpriteRenderer>();
         legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        legsAnimator = transform.Find("Legs").GetComponent<Animator>();
+        
         rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
         leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
     }
@@ -35,6 +40,10 @@ public class PlayerController : MonoBehaviour
     {
         if (!dead)
         {
+
+            falling += Time.deltaTime;
+            if (Physics2D.OverlapCircle(transform.position, 1, groundLayer)) { falling = 0; } 
+
             if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
             if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
 
@@ -42,9 +51,10 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); }
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
-            {
-                if (Physics2D.OverlapCircle(transform.position, 1, groundLayer))
                 {
+                if (falling < coyoteTime) 
+                {
+                    falling = coyoteTime;
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 }
             }
@@ -59,6 +69,10 @@ public class PlayerController : MonoBehaviour
 
     void Animate() 
     {
+        legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
+        legsAnimator.SetBool("jumping", rb.velocity.y > 0);
+        legsAnimator.SetBool("grounded", falling == 0);
+
         body.flipX = direction.x < 0;
         legs.flipX = direction.x < 0;
         rightArm.flipX = direction.x < 0;

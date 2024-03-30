@@ -14,26 +14,19 @@ public class PlayerController : MonoBehaviour
     float falling = 0; // seconds scince last grounded for animation and coyote time
     float coyoteTime = 0.1f; // seconds after falling that player can still jump
     Rigidbody2D rb;
-    SpriteRenderer body; 
-    SpriteRenderer legs;
-    Animator legsAnimator;
-    SpriteRenderer rightArm;
-    SpriteRenderer leftArm;
+    Collider2D col;
     public GameObject checkPoints;
     public GameObject projectiles;
     public GameObject Blood;
     public bool dead;
+
+    float squash = 0;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
-        body = transform.Find("Body").GetComponent<SpriteRenderer>();
-        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
-        legsAnimator = transform.Find("Legs").GetComponent<Animator>();
-        
-        rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
-        leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
     }
   
     void Update()
@@ -42,7 +35,14 @@ public class PlayerController : MonoBehaviour
         {
 
             falling += Time.deltaTime;
-            if (Physics2D.OverlapCircle(transform.position, 1, groundLayer)) { falling = 0; } 
+            if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
+            {
+                if (falling > coyoteTime) { 
+                    squash = 0.2f;
+                    //play landing sound
+                }
+                falling = 0;
+            }
 
             if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
             if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
                 {
                 if (falling < coyoteTime) 
                 {
+                    squash = -0.2f;
                     falling = coyoteTime;
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 }
@@ -69,9 +70,29 @@ public class PlayerController : MonoBehaviour
 
     void Animate() 
     {
+        Animator legsAnimator = transform.Find("Legs").GetComponent<Animator>();
+        SpriteRenderer body = transform.Find("Body").GetComponent<SpriteRenderer>();
+        SpriteRenderer legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        SpriteRenderer rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
+        SpriteRenderer leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
+        Transform bodyTransform = transform.Find("Body");
+        Transform legsTransform = transform.Find("Legs");
+        Transform rightArmTransform = transform.Find("RightArm");
+        Transform leftArmTransform = transform.Find("LeftArm");
+
+
+        squash *= 0.96f;
         legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
         legsAnimator.SetBool("jumping", rb.velocity.y > 0);
         legsAnimator.SetBool("grounded", falling == 0);
+
+        //Vector3 bob = new Vector3(0, Mathf.Sin(Time.time * 5f) * 1f, 0);
+
+        //bodyTransform.localPosition = bob;
+        bodyTransform.localScale = new Vector3(1 + squash, 1 - squash, 1);
+        legsTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
+        rightArmTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
+        leftArmTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
 
         body.flipX = direction.x < 0;
         legs.flipX = direction.x < 0;

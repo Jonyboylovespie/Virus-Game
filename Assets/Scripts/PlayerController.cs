@@ -39,9 +39,9 @@ public class PlayerController : MonoBehaviour
         falling += Time.deltaTime;
         if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
         {
-            if (falling > coyoteTime) { 
+            if (falling > coyoteTime) 
+            { 
                 squash = 0.2f;
-                //play landing sound
             }
             falling = 0;
         }
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); } // Fire Projectile
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
-            {
+        {
             if (falling < coyoteTime) 
             {
                 squash = -0.2f;

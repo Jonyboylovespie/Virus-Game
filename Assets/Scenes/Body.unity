@@ -360,7 +360,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_Name
-      value: Wall
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 2792926924226039883, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_LocalScale.x
@@ -906,7 +906,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_Name
-      value: Wall (1)
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2792926924226039883, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_LocalScale.x
@@ -1174,7 +1178,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_Name
-      value: Wall (3)
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2792926924226039883, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_LocalScale.x
@@ -1734,6 +1742,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 771936618245301440, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 771936618245301440, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 771936618245301440, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1576103756797343404, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
       propertyPath: m_Name
       value: player
@@ -2035,7 +2055,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 792537402153421923, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_Name
-      value: Wall (2)
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 2792926924226039883, guid: dd55435688d02034e94c503dd7e44376, type: 3}
       propertyPath: m_LocalScale.x

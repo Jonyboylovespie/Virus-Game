@@ -19,11 +19,14 @@ public class PlayerController : MonoBehaviour
     public GameObject projectiles;
     public GameObject Blood;
     public bool dead;
+    
 
     float squash = 0;
     
     void Start()
     {
+        
+
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
@@ -48,7 +51,11 @@ public class PlayerController : MonoBehaviour
             if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
 
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
-            if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); }
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                LaunchProjectile(); 
+                
+            }
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
                 {
@@ -102,6 +109,8 @@ public class PlayerController : MonoBehaviour
 
     void LaunchProjectile()
     {
+        
+        
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         projectile.transform.SetParent(projectiles.transform);
@@ -114,6 +123,8 @@ public class PlayerController : MonoBehaviour
         {
             projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
         }
+
+   
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -168,4 +179,6 @@ public class PlayerController : MonoBehaviour
         }
         health = 200;
     }
+
+    
 }

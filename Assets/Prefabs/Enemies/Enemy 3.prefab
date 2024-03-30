@@ -50,8 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  projectilePrefab: {fileID: 7979304992771041309, guid: 0dd2ff14cc3cac74d9751246d554566a, type: 3}
-  projectiles: {fileID: 4635255049411380651, guid: 53a0c86afd792a64f8a7f5cf1a0b474f, type: 3}
+  projectilePrefab: {fileID: 7979304992771041309, guid: 1343ca503ab134344aa48b11f48629ba, type: 3}
   cooldownSeconds: 3
   cooldown: 2
   launchForce: 10

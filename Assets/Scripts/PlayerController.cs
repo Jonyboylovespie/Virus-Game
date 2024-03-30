@@ -20,13 +20,10 @@ public class PlayerController : MonoBehaviour
     public GameObject Blood;
     public bool dead;
     
-
     float squash = 0;
     
     void Start()
     {
-        
-
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
@@ -87,7 +84,6 @@ public class PlayerController : MonoBehaviour
         Transform rightArmTransform = transform.Find("RightArm");
         Transform leftArmTransform = transform.Find("LeftArm");
 
-
         squash *= 0.96f;
         legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
         legsAnimator.SetBool("jumping", rb.velocity.y > 0);
@@ -110,28 +106,22 @@ public class PlayerController : MonoBehaviour
     void LaunchProjectile()
     {
         
-        
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         projectile.transform.SetParent(projectiles.transform);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        projectileScript.origin = "player"; 
 
         if (projectileRB != null)
         {
             projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
         }
 
-   
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        if (projectile != null && projectile.origin == "player") return;
-        if (collision.gameObject.CompareTag("Projectile 1"))
+        if (collision.gameObject.CompareTag("enemy projectile"))
         {
             health -= projectile.damage;
             Destroy(collision.gameObject);
@@ -154,6 +144,7 @@ public class PlayerController : MonoBehaviour
         }
         StartCoroutine(WaitForParticles());
     }
+    
     IEnumerator WaitForParticles()
     {
         yield return new WaitForSeconds(1);

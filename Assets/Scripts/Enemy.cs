@@ -27,9 +27,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        if (projectile != null && projectile.origin == "enemy") return;
-
-        if (collision.gameObject.CompareTag("Projectile 1"))
+        if (collision.gameObject.CompareTag("player projectile"))
         {
             Destroy(collision.gameObject); // Destroy the projectile on contact with the enemy
             health -= 1; // Reduce health by a fixed amount (adjust as needed)
@@ -68,9 +66,6 @@ public class Enemy : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
     
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
-
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        projectileScript.origin = "enemy"; // Set the origin to the current enemy
 
         // Apply force to the projectile
         if (projectileRB != null)

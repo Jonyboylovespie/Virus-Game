@@ -6,7 +6,11 @@ public class Projectile : MonoBehaviour
     private PlayerController player;
     private Vector2 direction;
     public float damage;
-    public string origin = "player";
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>(); 
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,6 +18,15 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Update()
+    {
+        
+        SpriteRenderer projectileSprite = GetComponent<SpriteRenderer>();
+
+        projectileSprite.flipX = rb.velocity.x < 0;
+
     }
 
 }

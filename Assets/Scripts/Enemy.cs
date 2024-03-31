@@ -13,11 +13,19 @@ public class Enemy : MonoBehaviour
     public GameObject Blood;
     Collider2D Range;
 
+
+    // Variables incicated for damage indicator
+    SpriteRenderer enemyBody;
+    public int enemyDamageState;
+    public Sprite[] enemyDamageIndicationSprites;
+
     void Start()
     {
-
+        enemyDamageState = 0;
         Save save = GameObject.Find("Save").GetComponent<Save>();
         if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
+
+        enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
         firePoint = transform.Find("FirePoint").localPosition;
@@ -42,6 +50,11 @@ public class Enemy : MonoBehaviour
                 save.SaveObject(gameObject.name, gameObject.scene.name);
 
                 Destroy(gameObject);
+            }else
+            {
+                enemyDamageState++;
+                enemyBody.sprite = enemyDamageIndicationSprites[enemyDamageState];
+                
             }
         }
     }

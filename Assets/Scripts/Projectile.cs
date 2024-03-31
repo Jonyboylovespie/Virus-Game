@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
     private Vector2 direction;
     public float damage;
 
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); 

@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     Transform leftArmTransform;
 
 
+
     // Variables for Damaged Player
     public int playerDamageState;
     public Sprite[] damageIndicationSprites;

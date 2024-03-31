@@ -60213,6 +60213,10 @@ PrefabInstance:
       propertyPath: damageIndicationSprites.Array.data[1]
       value: 
       objectReference: {fileID: 21300000, guid: d1fa459b61d9ec64c8078c907edb85c5, type: 3}
+    - target: {fileID: 7283623088674036347, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
+      propertyPath: damageIndicationSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: ec2bcb8b898c4244bb19ffd55939e512, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -64085,6 +64089,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6275596671728564315, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: enemyDamageIndicationSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275596671728564315, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: enemyDamageIndicationSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: b2be4c573f95f944a9b6dcaf1a891f5a, type: 3}
+    - target: {fileID: 6275596671728564315, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: enemyDamageIndicationSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5dc7d8c247a8d2b4f9195e7dcab4342d, type: 3}
     - target: {fileID: 6722360630909880871, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
       propertyPath: m_Name
       value: Eyes

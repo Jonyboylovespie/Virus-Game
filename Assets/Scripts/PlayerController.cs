@@ -47,11 +47,13 @@ public class PlayerController : MonoBehaviour
     {
         playerDamageState = 0;
 
+        /*
         Save save = GameObject.Find("Save").GetComponent<Save>();
         if (save.checkpointReached) { transform.position = save.checkpointPosition; }
+        */
         
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<CapsuleCollider2D    >();
+        col = GetComponent<CapsuleCollider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
         
         // Initialize Variables on start

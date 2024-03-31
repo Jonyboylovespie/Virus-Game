@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
         dead = false;
    
         Save save = GameObject.Find("Save").GetComponent<Save>();
-        if (save.checkpointScene != null) { SceneManager.LoadScene(save.checkpointScene); }
+        if (save.checkpointScene != "") { SceneManager.LoadScene(save.checkpointScene); }
         else { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
        
     }

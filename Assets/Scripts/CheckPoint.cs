@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
+
+    void Start()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null) { spriteRenderer.enabled = false; }
+    }
+
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.name == "player")

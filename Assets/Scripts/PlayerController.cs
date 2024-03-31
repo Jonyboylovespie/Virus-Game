@@ -18,18 +18,52 @@ public class PlayerController : MonoBehaviour
     Collider2D col;
     public GameObject Blood;
     public bool dead;
-    
+
+    // Variables for Animations
+    Animator legsAnimator;
+    SpriteRenderer body;
+    SpriteRenderer legs;
+    SpriteRenderer rightArm;
+    SpriteRenderer leftArm;
+    Transform bodyTransform;
+    Transform legsTransform;
+    Transform rightArmTransform;
+    Transform leftArmTransform;
+
+
+    // Variables for Damaged Player
+    public int playerDamageState;
+    public Sprite[] damageIndicationSprites;
+
+
+
+
+
+
     float squash = 0;
     
     void Start()
     {
+        playerDamageState = 0;
 
         Save save = GameObject.Find("Save").GetComponent<Save>();
         if (save.checkpointReached) { transform.position = save.checkpointPosition; }
         
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<CapsuleCollider2D>();
+        col = GetComponent<CapsuleCollider2D    >();
         firePoint = transform.Find("FirePoint").localPosition;
+        
+        // Initialize Variables on start
+        legsAnimator = transform.Find("Legs").GetComponent<Animator>();
+        body = transform.Find("Body").GetComponent<SpriteRenderer>();
+        legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
+        rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
+        leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
+        bodyTransform = transform.Find("Body");
+        legsTransform = transform.Find("Legs");
+        rightArmTransform = transform.Find("RightArm");
+        leftArmTransform = transform.Find("LeftArm");
+
 
     }
   
@@ -38,7 +72,7 @@ public class PlayerController : MonoBehaviour
         if (dead) { rb.velocity = new Vector2(0f,0f); return; }
         
         falling += Time.deltaTime;
-        if (Physics2D.Raycast(transform.position, new Vector2(0,-1), 0.1f, groundLayer))
+        if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
         {
             if (falling > coyoteTime) 
             { 
@@ -69,15 +103,7 @@ public class PlayerController : MonoBehaviour
 
     void Animate() 
     {
-        Animator legsAnimator = transform.Find("Legs").GetComponent<Animator>();
-        SpriteRenderer body = transform.Find("Body").GetComponent<SpriteRenderer>();
-        SpriteRenderer legs = transform.Find("Legs").GetComponent<SpriteRenderer>();
-        SpriteRenderer rightArm = transform.Find("RightArm").GetComponent<SpriteRenderer>();
-        SpriteRenderer leftArm = transform.Find("LeftArm").GetComponent<SpriteRenderer>();
-        Transform bodyTransform = transform.Find("Body");
-        Transform legsTransform = transform.Find("Legs");
-        Transform rightArmTransform = transform.Find("RightArm");
-        Transform leftArmTransform = transform.Find("LeftArm");
+        
 
         squash *= 0.96f;
         legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
@@ -106,8 +132,11 @@ public class PlayerController : MonoBehaviour
         if (projectileRB != null) { projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse); }
     }
     
+
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Damages player when contacted by enemy projectile
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
         if (collision.gameObject.CompareTag("enemy projectile"))
         {
@@ -117,6 +146,10 @@ public class PlayerController : MonoBehaviour
             {
                 dead = true;
                 StartCoroutine(Respawn());
+            } else
+            {
+                playerDamageState++;
+                body.sprite = damageIndicationSprites[playerDamageState];
             }
         }
         

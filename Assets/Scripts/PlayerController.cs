@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+
         Save save = GameObject.Find("Save").GetComponent<Save>();
         if (save.checkpointReached) { transform.position = save.checkpointPosition; }
         

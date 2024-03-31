@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         if (dead) { rb.velocity = new Vector2(0f,0f); return; }
         
         falling += Time.deltaTime;
-        if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
+        if (Physics2D.Raycast(transform.position, new Vector2(0,-1), 0.1f, groundLayer))
         {
             if (falling > coyoteTime) 
             { 

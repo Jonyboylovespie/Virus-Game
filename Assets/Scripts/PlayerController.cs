@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
-
         Save save = GameObject.Find("Save").GetComponent<Save>();
         if (save.checkpointReached) { transform.position = save.checkpointPosition; }
         
@@ -46,23 +45,34 @@ public class PlayerController : MonoBehaviour
             }
             falling = 0;
         }
-
-        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
-        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
-
-        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
+        
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (horizontalInput == 1) { direction = new Vector2(1, 1); } 
+        if (horizontalInput == -1) { direction = new Vector2(-1, 1); } 
+        
+        
+        Vector2 moveDirection = new Vector2(horizontalInput, 0f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, moveDirection, col.bounds.extents.x + 0.1f, groundLayer);
+        if (hit.collider == null)
+        {
+            rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
         if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); } // Fire Projectile
-
+        
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Vertical Movement
         {
-            if (falling < coyoteTime) 
+            if (falling < coyoteTime && hit.collider == null) 
             {
                 squash = -0.2f;
                 falling = coyoteTime;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
         }
-
+        
         Animate();
         
     }

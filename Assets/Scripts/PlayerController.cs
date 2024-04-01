@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public Sprite[] damagedSprites;
     public GameObject Blood; 
-    public Vector2 direction = new Vector2(1, 0); 
+    public Vector2 direction = new Vector2(1, 0);
+    public CameraShake cameraShake;
     
 
     bool dead;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     // Variables for Animations
     Animator legsAnimator;
-    SpriteRenderer body;
+    public SpriteRenderer body;
     SpriteRenderer legs;
     SpriteRenderer rightArm;
     SpriteRenderer leftArm;
@@ -160,10 +161,10 @@ public class PlayerController : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Damages player when contacted by enemy projectile
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
         if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
+            cameraShake.ShakeCamera();
             health -= projectile.damage;
             Destroy(collision.gameObject);
             if (!dead && health <= 0)

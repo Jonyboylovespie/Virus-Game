@@ -15,6 +15,8 @@ public class SceneTransitioner : MonoBehaviour
         hasExited = true;
     }
 
+
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

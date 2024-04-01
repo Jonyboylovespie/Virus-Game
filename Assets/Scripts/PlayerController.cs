@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,37 +38,24 @@ public class PlayerController : MonoBehaviour
 
     float squash = 0;
 
-    void load_save()
+    public bool didCameraFade = false;
+    private CameraFade cameraFade;
+
+    private void Awake()
     {
-
-        health = maxHealth;
-        Save save = GameObject.Find("Save").GetComponent<Save>();
-
-        direction = new Vector2(save.dir, 1);
-        if (save.health > 0) 
-        { 
-            health = save.health;
-            if (save.door != "")
-            {
-                transform.position = GameObject.Find(save.door).transform.position;
-                
-            }
-            save.door = "";
-            direction = new Vector2(save.doordir, 1);
-        } 
-        else 
-        { 
-            if (save.checkpointReached) { transform.position = save.checkpointPosition; }
-        }
+        cameraFade = transform.Find("Camera").GetComponent<CameraFade>();
+        cameraFade.StartFade(true);
+        
     }
-    
+
     void Start()
     {
         load_save();
-        
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
+        
+        // Finds camera fade component
         
         // Initialize Variables on start
         legsAnimator = transform.Find("Legs").GetComponent<Animator>();
@@ -80,6 +68,9 @@ public class PlayerController : MonoBehaviour
         rightArmTransform = transform.Find("RightArm");
         leftArmTransform = transform.Find("LeftArm");
         body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
+        
+        
+        
     }
   
     void Update()
@@ -115,6 +106,29 @@ public class PlayerController : MonoBehaviour
         Animate();
         
     }
+    
+    void load_save()
+    {
+
+        health = maxHealth;
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+        direction = new Vector2(save.dir, 1);
+        if (save.health > 0)
+        {
+            health = save.health;
+
+            if (save.door != "")
+            {
+                transform.position = GameObject.Find(save.door).transform.position;
+                direction = new Vector2(save.doordir, 1);
+                save.door = "";
+            }
+        } 
+        else 
+        { 
+            if (save.checkpointReached) { transform.position = save.checkpointPosition; }
+        }
+    }
 
     void Animate() 
     {
@@ -139,6 +153,7 @@ public class PlayerController : MonoBehaviour
 
     void LaunchProjectile()
     { 
+        
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
@@ -167,9 +182,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Respawn()
     {
+        
         Vector3 bloodPos = transform.position;
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
+        
         
         foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
         {
@@ -178,6 +195,7 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
 
+        
         dead = false;
    
         Save save = GameObject.Find("Save").GetComponent<Save>();
@@ -188,6 +206,9 @@ public class PlayerController : MonoBehaviour
         else { 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single); // reload current scene no checkpoint
             }
+        
+        //cameraFade.StartFade(false);
+        
        
     }
 

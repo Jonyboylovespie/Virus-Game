@@ -309,6 +309,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9910e96abcf2a6d47b9b9d89da239706, type: 3}
   Blood: {fileID: 915823799905539702, guid: eb47f22b973be1c4e8bae4d3635cb1a3, type: 3}
   direction: {x: 1, y: 0}
+  didCameraFade: 0
 --- !u!50 &771936618245301440
 Rigidbody2D:
   serializedVersion: 4
@@ -520,6 +521,8 @@ GameObject:
   - component: {fileID: 3744646753123898332}
   - component: {fileID: 5333299585410425897}
   - component: {fileID: 5411770170758678784}
+  - component: {fileID: 1288073721905822582}
+  - component: {fileID: 3849807661061779494}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -536,7 +539,7 @@ Transform:
   m_GameObject: {fileID: 7828222957836125494}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 46, y: -164, z: -20}
+  m_LocalPosition: {x: 1.1, y: 1.8, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -616,6 +619,102 @@ MonoBehaviour:
   smoothSpeed: 0.125
   yChange: 5
   playerTransform: {fileID: 0}
+--- !u!114 &1288073721905822582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828222957836125494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7de124a163dc74bb6b74b8e6404ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedScale: 1
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.5
+      inSlope: -1.5
+      outSlope: -1.5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startFadedOut: 1
+--- !u!114 &3849807661061779494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828222957836125494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7de124a163dc74bb6b74b8e6404ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedScale: 1
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.5
+      inSlope: -1.5
+      outSlope: -1.5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startFadedOut: 1
 --- !u!1 &8466952812604207236
 GameObject:
   m_ObjectHideFlags: 0

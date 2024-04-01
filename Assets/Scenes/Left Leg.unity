@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2589979397229941007, guid: 09dc6c9d0ddf32c4db713f1474c54724, type: 3}
       propertyPath: m_Name
-      value: door
+      value: Left Leg Torso
       objectReference: {fileID: 0}
     - target: {fileID: 4363254253895536117, guid: 09dc6c9d0ddf32c4db713f1474c54724, type: 3}
       propertyPath: m_LocalPosition.x

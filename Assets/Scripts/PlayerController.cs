@@ -46,8 +46,12 @@ public class PlayerController : MonoBehaviour
         direction = new Vector2(save.dir, 1);
         if (save.health > 0) 
         { 
-            health = save.health; 
-            if (save.door != "") { transform.position = GameObject.Find(save.door).transform.position; }
+            health = save.health;
+            if (save.door != "")
+            {
+                transform.position = GameObject.Find(save.door).transform.position;
+                
+            }
             save.door = "";
             direction = new Vector2(save.doordir, 1);
         } 

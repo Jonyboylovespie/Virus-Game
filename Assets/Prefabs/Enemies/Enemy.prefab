@@ -173,9 +173,9 @@ MonoBehaviour:
   launchForce: 20
   Blood: {fileID: 915823799905539702, guid: 2bfcd2d5c8ee51b4eb35da5f734c240f, type: 3}
   damagedSprites:
-  - {fileID: 21300000, guid: b2be4c573f95f944a9b6dcaf1a891f5a, type: 3}
-  - {fileID: 21300000, guid: b2be4c573f95f944a9b6dcaf1a891f5a, type: 3}
-  - {fileID: 21300000, guid: b2be4c573f95f944a9b6dcaf1a891f5a, type: 3}
+  - {fileID: 21300000, guid: 72561cd1ae5a25b4d8ec65564a9de7a2, type: 3}
+  - {fileID: 21300000, guid: 1f1663ab513764044b4a8b9400e38757, type: 3}
+  - {fileID: 21300000, guid: 72e6b8bea70f2be4e8e42533d38c680d, type: 3}
 --- !u!61 &6778564456598183425
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -472,12 +472,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b2be4c573f95f944a9b6dcaf1a891f5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72e6b8bea70f2be4e8e42533d38c680d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.15, y: 3.73}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

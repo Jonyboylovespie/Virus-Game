@@ -304,12 +304,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   damagedSprites:
-  - {fileID: 21300000, guid: 9910e96abcf2a6d47b9b9d89da239706, type: 3}
-  - {fileID: 21300000, guid: 9910e96abcf2a6d47b9b9d89da239706, type: 3}
-  - {fileID: 21300000, guid: 9910e96abcf2a6d47b9b9d89da239706, type: 3}
+  - {fileID: 21300000, guid: c852ae17e311d45498d1325d274684f3, type: 3}
+  - {fileID: 21300000, guid: 8613e27b20e78dd45b561cbceaa33dd9, type: 3}
+  - {fileID: 21300000, guid: c66a4828efae82b4da528377d72ae386, type: 3}
   Blood: {fileID: 915823799905539702, guid: eb47f22b973be1c4e8bae4d3635cb1a3, type: 3}
   direction: {x: 1, y: 0}
-  didCameraFade: 0
 --- !u!50 &771936618245301440
 Rigidbody2D:
   serializedVersion: 4
@@ -788,12 +787,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9910e96abcf2a6d47b9b9d89da239706, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c66a4828efae82b4da528377d72ae386, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6.85, y: 7.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

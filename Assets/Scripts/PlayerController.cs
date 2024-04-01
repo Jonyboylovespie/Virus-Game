@@ -37,12 +37,12 @@ public class PlayerController : MonoBehaviour
     Transform leftArmTransform;
 
     float squash = 0;
-
-    public bool didCameraFade = false;
+    
     private CameraFade cameraFade;
 
     private void Awake()
     {
+        // Gets cameraFade script and starts a fade
         cameraFade = transform.Find("Camera").GetComponent<CameraFade>();
         cameraFade.StartFade(true);
         
@@ -54,8 +54,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
         firePoint = transform.Find("FirePoint").localPosition;
-        
-        // Finds camera fade component
         
         // Initialize Variables on start
         legsAnimator = transform.Find("Legs").GetComponent<Animator>();
@@ -206,9 +204,6 @@ public class PlayerController : MonoBehaviour
         else { 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single); // reload current scene no checkpoint
             }
-        
-        //cameraFade.StartFade(false);
-        
        
     }
 

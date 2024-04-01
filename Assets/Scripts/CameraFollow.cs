@@ -8,6 +8,9 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
+        playerTransform = GameObject.Find("player").transform;
+        transform.SetParent(null);
+
         Vector3 playerPosition = playerTransform.position;
         Vector3 startPos = playerPosition;
         startPos.y = playerPosition.y + yChange;

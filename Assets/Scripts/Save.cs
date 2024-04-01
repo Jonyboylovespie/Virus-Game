@@ -9,18 +9,16 @@ public class Save : MonoBehaviour
 {
     private static Save instance;
     void Awake() {
+        transform.SetParent(null, true);
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);
         } else {
             Destroy(gameObject);
         }
-    }
 
-    public bool checkpointReached = false;
-    public string checkpointScene = "";
-    public Vector3 checkpointPosition = new Vector3(0, 0, 0);
-    public Dictionary<string, bool> collectedObjects = new Dictionary<string, bool>();
+        // if (SceneManager.sceneCount > 1) { SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single); }
+    }
 
     public void SaveObject(string objectName, string sceneName)
     {
@@ -36,5 +34,14 @@ public class Save : MonoBehaviour
         string key = $"{sceneName}_{objectName}";
         return collectedObjects.ContainsKey(key);
     }
+
+    public float health = 3;
+    public bool checkpointReached = false;
+    public string checkpointScene = "";
+    public string door = "";
+    public float doordir = 1;
+    public float dir = 1;
+    public Vector3 checkpointPosition = new Vector3(0, 0, 0);
+    public Dictionary<string, bool> collectedObjects = new Dictionary<string, bool>();
 
 }

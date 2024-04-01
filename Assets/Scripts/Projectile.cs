@@ -5,9 +5,7 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerController player;
     private Vector2 direction;
-    public float damage;
-
-
+    public float damage = 1;
 
     void Start()
     {
@@ -16,7 +14,7 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
             Destroy(gameObject);
         }

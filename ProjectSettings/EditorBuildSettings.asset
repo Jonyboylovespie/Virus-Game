@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Body.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Right Arm.unity
+    guid: 2a01923e62b5fc14eae8dcc05ba32aff
+  - enabled: 1
+    path: Assets/Scenes/Torso.unity
+    guid: 465409aea11a3ea4ebf1f3e8251692bf
+  - enabled: 1
+    path: Assets/Scenes/Left Arm.unity
+    guid: 9da2d95c74fd35c4e9aa984ea17d3ccf
+  - enabled: 1
+    path: Assets/Scenes/Left Leg.unity
+    guid: b2ce033621ae4c2438ceb15226029e20
+  - enabled: 1
+    path: Assets/Scenes/Right Leg.unity
+    guid: 11ad855ef47412345b327c5c59390bcf
+  - enabled: 1
+    path: Assets/Scenes/Head.unity
+    guid: 77e225278c64a2a469801cd7a4a5da24
   m_configObjects: {}

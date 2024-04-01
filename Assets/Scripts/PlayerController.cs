@@ -4,20 +4,25 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    
+    public float maxHealth = 3;
     public float health;
     public GameObject projectilePrefab;
     public float launchForce = 40f;
     public float jumpForce = 35f;
     public float moveSpeed = 15f;
     public LayerMask groundLayer;
-    Vector2 direction = new Vector2(1, 0); 
-    Vector3 firePoint;
+    public Sprite[] damagedSprites;
+    public GameObject Blood; 
+    public Vector2 direction = new Vector2(1, 0); 
+    
+
+    bool dead;
     float falling = 0; // seconds scince last grounded for animation and coyote time
     float coyoteTime = 0.1f; // seconds after falling that player can still jump
     Rigidbody2D rb;
     Collider2D col;
-    public GameObject Blood;
-    public bool dead;
+    Vector3 firePoint;
 
     // Variables for Animations
     Animator legsAnimator;
@@ -30,27 +35,29 @@ public class PlayerController : MonoBehaviour
     Transform rightArmTransform;
     Transform leftArmTransform;
 
-
-
-    // Variables for Damaged Player
-    public int playerDamageState;
-    public Sprite[] damageIndicationSprites;
-
-
-
-
-
-
     float squash = 0;
+
+    void load_save()
+    {
+
+        health = maxHealth;
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+
+        direction = new Vector2(save.dir, 1);
+        if (save.health > 0) { 
+            health = save.health; 
+            if (save.door != "") { transform.position = GameObject.Find(save.door).transform.position; }
+            save.door = "";
+            direction = new Vector2(save.doordir, 1);
+            } 
+        else { 
+            if (save.checkpointReached) { transform.position = save.checkpointPosition; }
+            }
+    }
     
     void Start()
     {
-        playerDamageState = 0;
-
-        /*
-        Save save = GameObject.Find("Save").GetComponent<Save>();
-        if (save.checkpointReached) { transform.position = save.checkpointPosition; }
-        */
+        load_save();
         
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CapsuleCollider2D>();
@@ -66,8 +73,7 @@ public class PlayerController : MonoBehaviour
         legsTransform = transform.Find("Legs");
         rightArmTransform = transform.Find("RightArm");
         leftArmTransform = transform.Find("LeftArm");
-
-
+        body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
     }
   
     void Update()
@@ -106,8 +112,6 @@ public class PlayerController : MonoBehaviour
 
     void Animate() 
     {
-        
-
         squash *= 0.96f;
         legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
         legsAnimator.SetBool("jumping", rb.velocity.y > 0);
@@ -135,13 +139,11 @@ public class PlayerController : MonoBehaviour
         if (projectileRB != null) { projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse); }
     }
     
-
-    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Damages player when contacted by enemy projectile
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        if (collision.gameObject.CompareTag("enemy projectile"))
+        if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
             health -= projectile.damage;
             Destroy(collision.gameObject);
@@ -151,8 +153,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Respawn());
             } else
             {
-                playerDamageState++;
-                body.sprite = damageIndicationSprites[playerDamageState];
+                body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
             }
         }
         
@@ -174,8 +175,13 @@ public class PlayerController : MonoBehaviour
         dead = false;
    
         Save save = GameObject.Find("Save").GetComponent<Save>();
-        if (save.checkpointScene != "") { SceneManager.LoadScene(save.checkpointScene); }
-        else { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+        save.health = health;
+        if (save.checkpointReached) { 
+            SceneManager.LoadScene(save.checkpointScene, LoadSceneMode.Single); // load Mode Single makes sure there is only one scene loaded
+            } 
+        else { 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single); // reload current scene no checkpoint
+            }
        
     }
 

@@ -13,17 +13,14 @@ public class Enemy : MonoBehaviour
     public GameObject Blood;
     Collider2D Range;
 
-
     // Variables incicated for damage indicator
     SpriteRenderer enemyBody;
-    public int enemyDamageState;
-    public Sprite[] enemyDamageIndicationSprites;
+    public Sprite[] damagedSprites;
 
     void Start()
     {
-        enemyDamageState = 0;
-        Save save = GameObject.Find("Save").GetComponent<Save>();
-        if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
+        //Save save = GameObject.Find("Save").GetComponent<Save>(); disabling for testing
+        //if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
 
         enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
 
@@ -34,8 +31,9 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Damages player when contacted by enemy projectile
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-        if (collision.gameObject.CompareTag("player projectile"))
+        if (collision.gameObject.CompareTag("Player Projectile"))
         {
             Destroy(collision.gameObject); // Destroy the projectile on contact with the enemy
             health -= 1; // Reduce health by a fixed amount (adjust as needed)
@@ -46,14 +44,13 @@ public class Enemy : MonoBehaviour
                 bloodPos.y += 2;
                 Instantiate(Blood, bloodPos, Quaternion.identity);
 
-                Save save = GameObject.Find("Save").GetComponent<Save>();
-                save.SaveObject(gameObject.name, gameObject.scene.name);
+                //Save save = GameObject.Find("Save").GetComponent<Save>(); disabling for testing 
+                //save.SaveObject(gameObject.name, gameObject.scene.name);
 
                 Destroy(gameObject);
             }else
             {
-                enemyDamageState++;
-                enemyBody.sprite = enemyDamageIndicationSprites[enemyDamageState];
+               enemyBody.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / 3 * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
                 
             }
         }
@@ -63,8 +60,8 @@ public class Enemy : MonoBehaviour
     {
         Animate();
 
+        if(player == null) { return; }
         if (!Range.OverlapPoint(player.transform.position)) return;
-        
         if (player.transform.position.x < transform.position.x) { direction = new Vector3(-1, 0, 0);} 
         else { direction = new Vector3(1, 0, 0); } // Set direction based on player position
         if (cooldown > 0) { cooldown -= Time.deltaTime; return; }

@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
         if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
-            cameraShake.ShakeCamera();
+            // cameraShake.ShakeCamera();
             health -= projectile.damage;
             Destroy(collision.gameObject);
             if (!dead && health <= 0)

@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6275596671728564315, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
       propertyPath: health
-      value: 3
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275596671728564315, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: cooldownSeconds
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6722360630909880871, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
       propertyPath: m_Name

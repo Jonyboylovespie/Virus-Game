@@ -270,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 1576103756797343404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 284.51, y: -101.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -621,6 +621,7 @@ GameObject:
   - component: {fileID: 5411770170758678784}
   - component: {fileID: 1288073721905822582}
   - component: {fileID: 3849807661061779494}
+  - component: {fileID: 7758020833255906699}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -813,6 +814,21 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   startFadedOut: 1
+--- !u!114 &7758020833255906699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7828222957836125494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67158ed4515939e41aa90cf2a9a6d0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniMapPrefab: {fileID: 1680220838510470169, guid: 783515264891eed4ebdda875d941c378, type: 3}
+  miniMap: {fileID: 0}
+  Background: {fileID: 2800000, guid: 0c3e5be3ab67334438d8d561ef91cfd9, type: 3}
 --- !u!1 &8466952812604207236
 GameObject:
   m_ObjectHideFlags: 0

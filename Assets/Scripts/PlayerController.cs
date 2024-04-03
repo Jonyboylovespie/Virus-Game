@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
     void LaunchProjectile()
     { 
-        
+        GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.05f);
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
@@ -158,9 +158,11 @@ public class PlayerController : MonoBehaviour
             if (!dead && health <= 0)
             {
                 dead = true;
+                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.4f);
                 StartCoroutine(Respawn());
             } else
             {
+                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.1f);
                 body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
             }
         }

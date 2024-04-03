@@ -19,8 +19,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        //Save save = GameObject.Find("Save").GetComponent<Save>(); disabling for testing
-        //if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
+        Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing
+        if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
 
         enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
 
@@ -43,9 +43,10 @@ public class Enemy : MonoBehaviour
                 Vector3 bloodPos = transform.position;
                 bloodPos.y += 2;
                 Instantiate(Blood, bloodPos, Quaternion.identity);
+                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.3f);
 
-                //Save save = GameObject.Find("Save").GetComponent<Save>(); disabling for testing 
-                //save.SaveObject(gameObject.name, gameObject.scene.name);
+                Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing 
+                save.SaveObject(gameObject.name, gameObject.scene.name);
 
                 Destroy(gameObject);
             }else
@@ -72,6 +73,7 @@ public class Enemy : MonoBehaviour
     
     void LaunchProjectile()
     {
+        GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.03f);
 
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);

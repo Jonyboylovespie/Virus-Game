@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -6,16 +7,44 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public float smoothSpeed = 0.125f;
     public Vector3 offset = new Vector3(0, 7, -20);
+    private float oldShakeX = 0;
+    private float oldShakeY = 0;
+    private float shakeX = 0;
+    private float shakeY = 0;
+    private float shakeDuration = 0;
+    private float shakeMagnitude = 0;
 
     public void FixedUpdate() {
+        transform.position -= new Vector3(oldShakeX, oldShakeY, 0);
         Vector3 desiredPosition = target.position + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        
         transform.position = smoothedPosition;
+        transform.position += new Vector3(shakeX, shakeY, 0);
+        oldShakeX = shakeX;
+        oldShakeY = shakeY;
+        if (shakeDuration > 0) {
+            shakeDuration -= Time.deltaTime;
+            shakeX = Random.Range(-1f, 1f) * shakeMagnitude;
+            shakeY = Random.Range(-1f, 1f) * shakeMagnitude;
+        } else {
+            shakeX = 0;
+            shakeY = 0;
+            shakeMagnitude = 0;
+        }
     }
 
     public void setTarget(Transform newTarget) {
         target = newTarget;
         transform.position = target.position + offset;
+    }
+
+    //shake
+    public void Shake(float duration, float magnitude) {
+        if (magnitude > shakeMagnitude) { 
+            shakeDuration = duration;
+            shakeMagnitude =  magnitude; 
+            }
     }
 
     //fade 

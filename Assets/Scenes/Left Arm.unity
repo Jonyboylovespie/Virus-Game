@@ -73288,11 +73288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4071434245976563171, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 415.05
+      value: 488.3
       objectReference: {fileID: 0}
     - target: {fileID: 4071434245976563171, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -125.77
+      value: -154.2
       objectReference: {fileID: 0}
     - target: {fileID: 4071434245976563171, guid: 6ea05448f216cbb42b5055388e1e7a0c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -73587,7 +73587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5609905913562176605, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 29.266525
+      value: 29.19
       objectReference: {fileID: 0}
     - target: {fileID: 5609905913562176605, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
       propertyPath: m_LocalPosition.z
@@ -73624,6 +73624,10 @@ PrefabInstance:
     - target: {fileID: 7150759827687031350, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
       propertyPath: m_Name
       value: BouncePad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7932806773817820049, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
+      propertyPath: appliedVelocity
+      value: 65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73810,6 +73814,10 @@ PrefabInstance:
     - target: {fileID: 7150759827687031350, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
       propertyPath: m_Name
       value: BouncePad (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7932806773817820049, guid: 10282be8aa8f39d4ba47b21adc708a08, type: 3}
+      propertyPath: appliedVelocity
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

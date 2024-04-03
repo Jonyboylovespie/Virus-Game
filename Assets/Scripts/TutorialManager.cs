@@ -55,12 +55,13 @@ public class TutorialManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab))
                 {
-                    popupIndex++;
+                    StartCoroutine(EndTutorial());
+                    
                 }
             }
             else // Ends Tutorial
             {
-                StartCoroutine(EndTutorial());  
+                Debug.Log("Tutorial Out of Index");
             }
         }
     }

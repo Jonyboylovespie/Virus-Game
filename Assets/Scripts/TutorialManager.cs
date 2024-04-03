@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    public TextMeshProUGUI[] popUps;
+    public Image[] popUps;
     public int popupIndex = 0;
 
     public bool isTutorialActive;
@@ -45,14 +46,14 @@ public class TutorialManager : MonoBehaviour
             }
             else if (popupIndex == 1)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     popupIndex++;
                 }
             }
             else if (popupIndex == 2)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab))
                 {
                     popupIndex++;
                 }

@@ -14,8 +14,6 @@ public class SceneTransitioner : MonoBehaviour
         yield return new WaitForSeconds(1);
         hasExited = true;
     }
-
-
     
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -25,16 +23,22 @@ public class SceneTransitioner : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!hasExited) { return; }
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Save save = GameObject.Find("Save").GetComponent<Save>();
-            save.door = destinationDoor;
-            save.doordir = collision.gameObject.GetComponent<PlayerController>().direction.x;
-            save.health = collision.gameObject.GetComponent<PlayerController>().health;
-            SceneManager.LoadScene(destinationScene, LoadSceneMode.Single);
+    private void OnTriggerEnter2D(Collider2D collision) {
+        StartCoroutine(Travel(collision)); 
         }
+
+    IEnumerator Travel(Collider2D collision) {
+        if (!hasExited) { yield break;; }
+        if (!collision.gameObject.CompareTag("Player")) { yield break;}
+
+        GameObject.Find("Camera").GetComponent<CameraFollow>().fadeOut(.5f);
+        yield return new WaitForSeconds(.5f);
+
+        Save save = GameObject.Find("Save").GetComponent<Save>();
+        save.door = destinationDoor;
+        save.doordir = collision.gameObject.GetComponent<PlayerController>().direction.x;
+        save.health = collision.gameObject.GetComponent<PlayerController>().health;
+        SceneManager.LoadScene(destinationScene, LoadSceneMode.Single);
+        yield return null;
     }
 }

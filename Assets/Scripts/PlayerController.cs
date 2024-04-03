@@ -16,9 +16,7 @@ public class PlayerController : MonoBehaviour
     public Sprite[] damagedSprites;
     public GameObject Blood; 
     public Vector2 direction = new Vector2(1, 0);
-    public CameraShake cameraShake;
     
-
     bool dead;
     float falling = 0; // seconds scince last grounded for animation and coyote time
     float coyoteTime = 0.1f; // seconds after falling that player can still jump
@@ -38,16 +36,6 @@ public class PlayerController : MonoBehaviour
     Transform leftArmTransform;
 
     float squash = 0;
-    
-    private CameraFade cameraFade;
-
-    private void Awake()
-    {
-        // Gets cameraFade script and starts a fade
-        cameraFade = transform.Find("Camera").GetComponent<CameraFade>();
-        cameraFade.StartFade(true);
-        
-    }
 
     void Start()
     {
@@ -67,9 +55,7 @@ public class PlayerController : MonoBehaviour
         rightArmTransform = transform.Find("RightArm");
         leftArmTransform = transform.Find("LeftArm");
         body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
-        
-        
-        
+            
     }
   
     void Update()
@@ -127,6 +113,8 @@ public class PlayerController : MonoBehaviour
         { 
             if (save.checkpointReached) { transform.position = save.checkpointPosition; }
         }
+        GameObject.Find("Camera").GetComponent<CameraFollow>().setTarget(transform);
+        
     }
 
     void Animate() 

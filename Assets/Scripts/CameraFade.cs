@@ -9,6 +9,11 @@ public class CameraFade : MonoBehaviour
         new Keyframe(0.5f, 0.5f, -1.5f, -1.5f), new Keyframe(1, 0));
     public bool startFadedOut = true;
 
+    void Start()
+    {
+        StartFade(true);
+    }
+
 
     private float alpha = 0f; 
     private Texture2D texture;

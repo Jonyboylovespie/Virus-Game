@@ -8,7 +8,9 @@ public class TallEnemy : MonoBehaviour
     public float cooldown = 0f;
     public float launchForce = 20f;
     Vector3 direction = new Vector3(1, 0, 0);
-    Vector3 firePoint;
+    Vector3 firePointTop;
+    Vector3 firePointBottom;
+    private bool isFirePointbottom = true;
     GameObject player;
     public GameObject Blood;
     Collider2D Range;
@@ -22,10 +24,13 @@ public class TallEnemy : MonoBehaviour
         //Save save = GameObject.Find("Save").GetComponent<Save>(); disabling for testing
         //if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
 
+        
+        
         enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
-        firePoint = transform.Find("FirePoint").localPosition;
+        firePointTop = transform.Find("FirePoint Top").localPosition;
+        firePointBottom = transform.Find("FirePoint Bottom").localPosition;
         Range = transform.Find("Range").GetComponent<Collider2D>();
     }
 
@@ -69,20 +74,42 @@ public class TallEnemy : MonoBehaviour
         cooldown = cooldownSeconds;
         
     }
-    
+
     void LaunchProjectile()
     {
+        
+        
+        if (isFirePointbottom == true)
+        {
+            Vector3 projectilePosition = transform.position + new Vector3(firePointBottom.x * direction.x, firePointBottom.y, firePointBottom.z);
+            GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+            Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+            
+            if (projectileRB != null)
+            {
+                projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
+            }
 
-        Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
-        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+            isFirePointbottom = false;
+        }
+        else
+        {
+            Vector3 projectilePosition = transform.position + new Vector3(firePointTop.x * direction.x, firePointTop.y, firePointTop.z);
+            GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+            Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+            
+            if (projectileRB != null)
+            {
+                projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
+            }
+
+            isFirePointbottom = true;
+        }
     
-        Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+        
 
         // Apply force to the projectile
-        if (projectileRB != null)
-        {
-            projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);
-        }
+        
     }
 
     void Animate()

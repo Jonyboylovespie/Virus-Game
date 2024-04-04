@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     Transform leftArmTransform;
 
     float squash = 0;
+    
+    // Sounds
+    public AudioSource shootSound;
+    public AudioSource jumpSound;
+    public AudioSource landSound;
 
     void Start()
     {
@@ -70,6 +75,11 @@ public class PlayerController : MonoBehaviour
             if (falling > coyoteTime) 
             { 
                 squash = 0.2f;
+                if (rb.velocity.y < -3f) 
+                {
+                    landSound.Play();
+                }
+                
             }
             falling = 0;
         }
@@ -87,6 +97,7 @@ public class PlayerController : MonoBehaviour
                 squash = -0.2f;
                 falling = coyoteTime;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                jumpSound.Play();
             }
         }
 
@@ -144,6 +155,8 @@ public class PlayerController : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
         if (projectileRB != null) { projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse); }
+        
+        shootSound.Play();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)

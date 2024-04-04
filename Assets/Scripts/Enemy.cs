@@ -25,18 +25,18 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        if (gameObject.name == "Enemy")
-        {
+        // if (gameObject.name == "Enemy")
+        // {
             firePoint = transform.Find("FirePoint").localPosition;
             isEnemyTall = false;
-        } else if (gameObject.name == "Tall")
-        {
-            firePointTop = transform.Find("FirePoint Top").localPosition;
-            firePointBottom = transform.Find("FirePoint Bottom").localPosition;
-            isEnemyTall = true;
-        }
+        // } else if (gameObject.name == "Tall")
+        // {
+            // firePointTop = transform.Find("FirePoint Top").localPosition;
+            // firePointBottom = transform.Find("FirePoint Bottom").localPosition;
+            // isEnemyTall = true;
+        // }
         
-        Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing
+        Save save = GameObject.Find("save").GetComponent<Save>(); //disabling for testing
         if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
 
         enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
@@ -60,9 +60,9 @@ public class Enemy : MonoBehaviour
                 Vector3 bloodPos = transform.position;
                 bloodPos.y += 2;
                 Instantiate(Blood, bloodPos, Quaternion.identity);
-                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.3f);
+                GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.3f);
 
-                Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing 
+                Save save = GameObject.Find("save").GetComponent<Save>(); //disabling for testing 
                 save.SaveObject(gameObject.name, gameObject.scene.name);
                 
                 GameObject enemies = GameObject.Find("Enemies");
@@ -121,7 +121,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.03f);
+            GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.03f);
 
             projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
             projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);

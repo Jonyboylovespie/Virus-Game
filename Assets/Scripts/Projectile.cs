@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        
+           
         SpriteRenderer projectileSprite = GetComponent<SpriteRenderer>();
 
         projectileSprite.flipX = rb.velocity.x < 0;

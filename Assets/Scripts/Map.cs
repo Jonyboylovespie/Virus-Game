@@ -11,7 +11,6 @@ public class Map : MonoBehaviour
 
     void Start() {
         updateMap();
-
     }
 
     void Update() {
@@ -19,7 +18,7 @@ public class Map : MonoBehaviour
             mapActive = !mapActive;
             updateMap(); 
         }
-        Save save = GameObject.Find("Save").GetComponent<Save>(); 
+        Save save = GameObject.Find("save").GetComponent<Save>(); 
         if (save == null) { return; }
         if (!save.GetObject("", "Head")) { return; }
         if (!save.GetObject("", "Torso")) { return; }
@@ -33,12 +32,12 @@ public class Map : MonoBehaviour
     }
 
     void updateCleared() {
-        Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing 
+        Save save = GameObject.Find("save").GetComponent<Save>(); //disabling for testing 
         if (save == null) { return; }
 
-        //save.SaveObject("", "Head"); // Comment out... just for testing
+        //save.SaveObject("", "Right Arm");// Comment out... just for testing
+        //save.SaveObject("", "Head"); 
         //save.SaveObject("", "Torso");
-        //save.SaveObject("", "Right Arm");
         //save.SaveObject("", "Left Arm");
         //save.SaveObject("", "Right Leg");
         //save.SaveObject("", "Left Leg");

@@ -14,6 +14,8 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         isTutorialActive = true;
+        Save save = GameObject.Find("save").GetComponent<Save>();
+        if (save.GetObject("Tutorial", "")) { popupIndex = 3; }
     }
 
     // Update is called once per frame
@@ -39,7 +41,15 @@ public class TutorialManager : MonoBehaviour
             // Actions for players to achieve to complete tutorial
             if (popupIndex == 0)
             {
-                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.A) || 
+                    Input.GetKeyDown(KeyCode.D ) || 
+                    Input.GetKeyDown(KeyCode.W) || 
+                    Input.GetKeyDown(KeyCode.S) ||
+                    Input.GetKeyDown(KeyCode.LeftArrow) ||
+                    Input.GetKeyDown(KeyCode.RightArrow) ||
+                    Input.GetKeyDown(KeyCode.LeftArrow) ||
+                    Input.GetKeyDown(KeyCode.UpArrow) ||
+                    Input.GetKeyDown(KeyCode.Space))
                 {
                     popupIndex++;
                 }
@@ -55,24 +65,18 @@ public class TutorialManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab))
                 {
-                    StartCoroutine(EndTutorial());
-                    
+                    popupIndex++;
+                    Save save = GameObject.Find("save").GetComponent<Save>();
+                    save.SaveObject("Tutorial", "");
                 }
             }
             else // Ends Tutorial
             {
-                Debug.Log("Tutorial Out of Index");
+                //Debug.Log("Tutorial Out of Index");
             }
         }
     }
         
 
-
-    IEnumerator EndTutorial()
-    {
-        yield return new WaitForSeconds(3);
-        popUps[popupIndex].gameObject.SetActive(false);
-        isTutorialActive = false;
-    }
 
 }

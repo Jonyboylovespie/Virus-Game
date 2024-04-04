@@ -31,10 +31,10 @@ public class SceneTransitioner : MonoBehaviour
         if (!hasExited) { yield break;; }
         if (!collision.gameObject.CompareTag("Player")) { yield break;}
 
-        GameObject.Find("Camera").GetComponent<CameraFollow>().fadeOut(.5f);
+        GameObject.Find("camera").GetComponent<CameraFollow>().fadeOut(.5f);
         yield return new WaitForSeconds(.5f);
 
-        Save save = GameObject.Find("Save").GetComponent<Save>();
+        Save save = GameObject.Find("save").GetComponent<Save>();
         save.door = destinationDoor;
         save.doordir = collision.gameObject.GetComponent<PlayerController>().direction.x;
         save.health = collision.gameObject.GetComponent<PlayerController>().health;

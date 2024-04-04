@@ -63,7 +63,9 @@ public class PlayerController : MonoBehaviour
         if (dead) { rb.velocity = new Vector2(0f,0f); return; }
         
         falling += Time.deltaTime;
-        if (Physics2D.OverlapBox((Vector2)transform.position + col.offset, col.bounds.size, 1f, groundLayer))
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, col.bounds.extents.y + 0.1f, groundLayer);
+        if (hit.collider != null)
         {
             if (falling > coyoteTime) 
             { 
@@ -72,8 +74,8 @@ public class PlayerController : MonoBehaviour
             falling = 0;
         }
 
-        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 1); } 
-        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 1); } 
+        if (Input.GetAxisRaw("Horizontal") == 1) { direction = new Vector2(1, 0); } 
+        if (Input.GetAxisRaw("Horizontal") == -1) { direction = new Vector2(-1, 0); } 
 
         rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y); // Horizontal Movement
         if (Input.GetKeyDown(KeyCode.Mouse0)) { LaunchProjectile(); } // Fire Projectile
@@ -96,7 +98,7 @@ public class PlayerController : MonoBehaviour
     {
 
         health = maxHealth;
-        Save save = GameObject.Find("Save").GetComponent<Save>();
+        Save save = GameObject.Find("save").GetComponent<Save>();
         direction = new Vector2(save.dir, 1);
         if (save.health > 0)
         {
@@ -113,7 +115,7 @@ public class PlayerController : MonoBehaviour
         { 
             if (save.checkpointReached) { transform.position = save.checkpointPosition; }
         }
-        GameObject.Find("Camera").GetComponent<CameraFollow>().setTarget(transform);
+        GameObject.Find("camera").GetComponent<CameraFollow>().setTarget(transform);
         
     }
 
@@ -121,16 +123,13 @@ public class PlayerController : MonoBehaviour
     {
         squash *= 0.96f;
         legsAnimator.SetBool("moving", rb.velocity.magnitude > 0);
-        legsAnimator.SetBool("jumping", rb.velocity.y > 0);
-        legsAnimator.SetBool("grounded", falling == 0);
+        legsAnimator.SetBool("jumping", rb.velocity.y > 3);
+        legsAnimator.SetBool("grounded", falling < coyoteTime);
 
         //Vector3 bob = new Vector3(0, Mathf.Sin(Time.time * 5f) * 1f, 0);
 
         //bodyTransform.localPosition = bob;
-        bodyTransform.localScale = new Vector3(1 + squash, 1 - squash, 1);
-        legsTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
-        rightArmTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
-        leftArmTransform.localScale = new Vector3(1 + squash, 1 + squash, 1);
+        //bodyTransform.localScale = new Vector3(1 + squash, 1 - squash, 1);
 
         body.flipX = direction.x < 0;
         legs.flipX = direction.x < 0;
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     void LaunchProjectile()
     { 
-        GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.05f);
+        GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.05f);
         Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
         GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
@@ -158,11 +157,11 @@ public class PlayerController : MonoBehaviour
             if (!dead && health <= 0)
             {
                 dead = true;
-                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.4f);
+                GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.4f);
                 StartCoroutine(Respawn());
             } else
             {
-                GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.1f);
+                GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.1f);
                 body.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / maxHealth * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
             }
         }
@@ -187,7 +186,7 @@ public class PlayerController : MonoBehaviour
         
         dead = false;
    
-        Save save = GameObject.Find("Save").GetComponent<Save>();
+        Save save = GameObject.Find("save").GetComponent<Save>();
         save.health = health;
         if (save.checkpointReached) { 
             SceneManager.LoadScene(save.checkpointScene, LoadSceneMode.Single); // load Mode Single makes sure there is only one scene loaded

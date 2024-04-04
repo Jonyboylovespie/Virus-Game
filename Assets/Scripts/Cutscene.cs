@@ -24,6 +24,7 @@ public class Cutscene : MonoBehaviour
             if (!canSkip) { return; }
             if (string.IsNullOrEmpty(destinationScene)) { return; }
             StartCoroutine(Continue());
+            canSkip = false;
         }
     }
 

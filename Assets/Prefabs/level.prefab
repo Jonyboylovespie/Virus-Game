@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8075264511946202651}
   - component: {fileID: 5264490222750840125}
   - component: {fileID: 6640334265807803723}
-  - component: {fileID: -6574391183873943339}
+  - component: {fileID: -5329408145310753355}
   m_Layer: 3
   m_Name: level
   m_TagString: Untagged
@@ -200,7 +200,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!19719996 &-6574391183873943339
+--- !u!19719996 &-5329408145310753355
 TilemapCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +209,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 1906646003623381297}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 0417cc12ce6a44647815009b88d0dd46, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

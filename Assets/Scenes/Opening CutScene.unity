@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20bb9f38f32026a4395e6d4173fbce3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 1072349415}
   smoothSpeed: 0.125
   offset: {x: 0, y: 7, z: -20}
   fadeDurationSeconds: 1
@@ -300,6 +300,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &1072349415 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2739575597062719666, guid: 7f911a94c0b83544e9a717a9f26f3daf, type: 3}
+  m_PrefabInstance: {fileID: 1083468536}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1083468536
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -356,6 +361,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9051884182743606120, guid: 7f911a94c0b83544e9a717a9f26f3daf, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1010027668}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

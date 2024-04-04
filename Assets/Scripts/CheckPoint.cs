@@ -13,7 +13,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collider.name == "player")
         {
-            Save save = GameObject.Find("Save").GetComponent<Save>();
+            Save save = GameObject.Find("save").GetComponent<Save>();
             save.checkpointReached = true;
             save.dir = collider.gameObject.GetComponent<PlayerController>().direction.x;
             save.checkpointPosition = transform.position;
@@ -24,7 +24,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collider.name == "player")
         {
-            Save save = GameObject.Find("Save").GetComponent<Save>();
+            Save save = GameObject.Find("save").GetComponent<Save>();
             save.dir = collider.gameObject.GetComponent<PlayerController>().direction.x;
         }
     }

@@ -587,7 +587,6 @@ GameObject:
   - component: {fileID: 9204069696662393067}
   - component: {fileID: 217049146413191295}
   - component: {fileID: 5961030519080271768}
-  - component: {fileID: 7139604335183897137}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -753,21 +752,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7139604335183897137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2543489167256931646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67158ed4515939e41aa90cf2a9a6d0de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapActive: 0
-  markerScenesNames: []
-  markerSprites: []
 --- !u!1 &2565225936543863508
 GameObject:
   m_ObjectHideFlags: 0

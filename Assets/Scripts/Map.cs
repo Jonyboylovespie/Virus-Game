@@ -8,6 +8,7 @@ public class Map : MonoBehaviour
     public bool mapActive = false;
     public string[] markerScenesNames;
     public Sprite[] markerSprites; 
+    public AudioSource mapSound;
 
     void Start() {
         updateMap();
@@ -16,9 +17,15 @@ public class Map : MonoBehaviour
     void Update() {
         if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab)) { 
             mapActive = !mapActive;
+            mapSound.Play();
             updateMap(); 
         }
         Save save = GameObject.Find("save").GetComponent<Save>(); 
+
+        GameObject enemies = GameObject.Find("Enemies");
+        if (enemies == null) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
+        if (enemies.transform.childCount == 1) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
+
         if (save == null) { return; }
         if (!save.GetObject("", "Head")) { return; }
         if (!save.GetObject("", "Torso")) { return; }

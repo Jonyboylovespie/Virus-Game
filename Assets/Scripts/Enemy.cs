@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class Enemy : MonoBehaviour
     GameObject player;
     public GameObject Blood;
     Collider2D Range;
+
+    public AudioSource shootSound;
+    public AudioSource hurtSound;
+    public AudioSource deathSound;
 
     public bool isEnemyTall;
     public bool isFirePointBottom;
@@ -54,6 +59,7 @@ public class Enemy : MonoBehaviour
         {
             Destroy(collision.gameObject); // Destroy the projectile on contact with the enemy
             health -= 1; // Reduce health by a fixed amount (adjust as needed)
+            if (health > 0) { hurtSound.Play();}
 
             if (health <= 0)
             {
@@ -64,12 +70,15 @@ public class Enemy : MonoBehaviour
 
                 Save save = GameObject.Find("save").GetComponent<Save>(); //disabling for testing 
                 save.SaveObject(gameObject.name, gameObject.scene.name);
-                
-                GameObject enemies = GameObject.Find("Enemies");
-                if (enemies == null) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
-                if (enemies.transform.childCount == 1) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
 
-                Destroy(gameObject);
+                GetComponent<Collider2D>().enabled = false;
+                SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+                foreach (SpriteRenderer renderer in spriteRenderers) {
+                    renderer.enabled = false;
+                }
+
+                StartCoroutine(death());
+                
             }else
             {
                enemyBody.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / 3 * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];
@@ -77,6 +86,14 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    IEnumerator death() {
+        deathSound.Play();
+
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
+    
 
     private void Update()
     {
@@ -87,6 +104,7 @@ public class Enemy : MonoBehaviour
         if (player.transform.position.x < transform.position.x) { direction = new Vector3(-1, 0, 0);} 
         else { direction = new Vector3(1, 0, 0); } // Set direction based on player position
         if (cooldown > 0) { cooldown -= Time.deltaTime; return; }
+        if (health <= 0) { return; }
         LaunchProjectile();
         cooldown = cooldownSeconds;
         
@@ -103,19 +121,20 @@ public class Enemy : MonoBehaviour
             {
                 projectilePosition = transform.position + new Vector3(firePointBottom.x * direction.x, firePointBottom.y, firePointBottom.z);
                 projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+                shootSound.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+                shootSound.Play();
                 projectileRB = projectile.GetComponent<Rigidbody2D>();
                 
-
                 isFirePointBottom = false;
             }
             else
             {
                 projectilePosition = transform.position + new Vector3(firePointTop.x * direction.x, firePointTop.y, firePointTop.z);
                 projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+                shootSound.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+                shootSound.Play();
                 projectileRB = projectile.GetComponent<Rigidbody2D>();
             
-                
-
                 isFirePointBottom = true;
             }
         }
@@ -125,6 +144,8 @@ public class Enemy : MonoBehaviour
 
             projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
             projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+            shootSound.Play();
+            projectileRB = projectile.GetComponent<Rigidbody2D>();
     
             projectileRB = projectile.GetComponent<Rigidbody2D>();
 

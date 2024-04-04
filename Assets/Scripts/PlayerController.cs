@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public AudioSource shootSound;
     public AudioSource jumpSound;
     public AudioSource landSound;
+    public AudioSource hurtSound;
+    public AudioSource deathSound;
 
     void Start()
     {
@@ -156,6 +158,7 @@ public class PlayerController : MonoBehaviour
         Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
         if (projectileRB != null) { projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse); }
         
+        shootSound.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
         shootSound.Play();
     }
     
@@ -166,12 +169,15 @@ public class PlayerController : MonoBehaviour
         {
             // cameraShake.ShakeCamera();
             health -= projectile.damage;
+            if (health > 0) { hurtSound.Play(); }
             Destroy(collision.gameObject);
             if (!dead && health <= 0)
             {
                 dead = true;
                 GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.4f);
+                deathSound.Play();
                 StartCoroutine(Respawn());
+    
             } else
             {
                 GameObject.Find("camera").GetComponent<CameraFollow>().Shake(.1f, 0.1f);
@@ -188,15 +194,15 @@ public class PlayerController : MonoBehaviour
         bloodPos.y += 2;
         Instantiate(Blood, bloodPos, Quaternion.identity);
         
-        
         foreach (var spriteRenderer in gameObject.transform.GetComponentsInChildren<SpriteRenderer>())
         {
             spriteRenderer.enabled = false;
         }
         
         yield return new WaitForSeconds(1f);
+        GameObject.Find("camera").GetComponent<CameraFollow>().fadeOut(.5f);
+        yield return new WaitForSeconds(.7f);
 
-        
         dead = false;
    
         Save save = GameObject.Find("save").GetComponent<Save>();

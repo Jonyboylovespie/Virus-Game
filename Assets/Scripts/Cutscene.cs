@@ -16,10 +16,7 @@ public class Cutscene : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) 
-        || Input.GetKeyDown(KeyCode.Return) 
-        || Input.GetKeyDown(KeyCode.KeypadEnter)
-        || Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.anyKeyDown)
         {
             if (!canSkip) { return; }
             if (string.IsNullOrEmpty(destinationScene)) { return; }

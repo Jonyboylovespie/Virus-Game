@@ -25,16 +25,16 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        // if (gameObject.name == "Enemy")
-        // {
+        if (gameObject.CompareTag("Enemy Short"))
+        {
             firePoint = transform.Find("FirePoint").localPosition;
             isEnemyTall = false;
-        // } else if (gameObject.name == "Tall")
-        // {
-            // firePointTop = transform.Find("FirePoint Top").localPosition;
-            // firePointBottom = transform.Find("FirePoint Bottom").localPosition;
-            // isEnemyTall = true;
-        // }
+        } else if (gameObject.CompareTag("Enemy Tall"))
+        {
+            firePointTop = transform.Find("FirePoint Top").localPosition;
+            firePointBottom = transform.Find("FirePoint Bottom").localPosition;
+            isEnemyTall = true;
+        }
         
         Save save = GameObject.Find("save").GetComponent<Save>(); //disabling for testing
         if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }

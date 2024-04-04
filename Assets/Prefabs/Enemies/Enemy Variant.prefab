@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6722360630909880871, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: m_TagString
+      value: Enemy Short
+      objectReference: {fileID: 0}
     - target: {fileID: 7209434406066297377, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
       propertyPath: m_Radius
       value: 20

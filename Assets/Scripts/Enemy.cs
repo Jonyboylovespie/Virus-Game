@@ -23,15 +23,13 @@ public class Enemy : MonoBehaviour
     SpriteRenderer enemyBody;
     public Sprite[] damagedSprites;
 
-    public AudioSource dieSound;
-
     void Start()
     {
-        if (gameObject.name == "Enemy")
+        if (gameObject.CompareTag("Enemy Short"))
         {
             firePoint = transform.Find("FirePoint").localPosition;
             isEnemyTall = false;
-        } else if (gameObject.name == "Tall")
+        } else if (gameObject.CompareTag("Enemy Tall"))
         {
             firePointTop = transform.Find("FirePoint Top").localPosition;
             firePointBottom = transform.Find("FirePoint Bottom").localPosition;

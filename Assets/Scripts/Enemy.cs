@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     SpriteRenderer enemyBody;
     public Sprite[] damagedSprites;
 
+    public AudioSource dieSound;
+
     void Start()
     {
         if (gameObject.name == "Enemy")
@@ -44,6 +46,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.Find("player");
         
         Range = transform.Find("Range").GetComponent<Collider2D>();
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -69,7 +72,9 @@ public class Enemy : MonoBehaviour
                 if (enemies == null) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
                 if (enemies.transform.childCount == 1) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
 
+                
                 Destroy(gameObject);
+                
             }else
             {
                enemyBody.sprite = damagedSprites[Mathf.Clamp(Mathf.FloorToInt(health / 3 * (damagedSprites.Length - 1)), 0, damagedSprites.Length - 1)];

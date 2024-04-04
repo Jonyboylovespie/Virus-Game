@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,9 +10,14 @@ public class Enemy : MonoBehaviour
     public float launchForce = 20f;
     Vector3 direction = new Vector3(1, 0, 0);
     Vector3 firePoint;
+    Vector3 firePointTop;
+    Vector3 firePointBottom;
     GameObject player;
     public GameObject Blood;
     Collider2D Range;
+
+    public bool isEnemyTall;
+    public bool isFirePointBottom;
 
     // Variables incicated for damage indicator
     SpriteRenderer enemyBody;
@@ -19,13 +25,24 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        if (gameObject.name == "Enemy")
+        {
+            firePoint = transform.Find("FirePoint").localPosition;
+            isEnemyTall = false;
+        } else if (gameObject.name == "Tall")
+        {
+            firePointTop = transform.Find("FirePoint Top").localPosition;
+            firePointBottom = transform.Find("FirePoint Bottom").localPosition;
+            isEnemyTall = true;
+        }
+        
         Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing
         if (save.GetObject(gameObject.name, gameObject.scene.name)) { Destroy(gameObject); }
 
         enemyBody = transform.Find("Body").GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
-        firePoint = transform.Find("FirePoint").localPosition;
+        
         Range = transform.Find("Range").GetComponent<Collider2D>();
     }
 
@@ -77,14 +94,44 @@ public class Enemy : MonoBehaviour
     
     void LaunchProjectile()
     {
-        GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.03f);
+        GameObject projectile;
+        Rigidbody2D projectileRB;
+        Vector3 projectilePosition;
+        if (isEnemyTall)
+        {
+            if (isFirePointBottom == true)
+            {
+                projectilePosition = transform.position + new Vector3(firePointBottom.x * direction.x, firePointBottom.y, firePointBottom.z);
+                projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+                projectileRB = projectile.GetComponent<Rigidbody2D>();
+                
 
-        Vector3 projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
-        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+                isFirePointBottom = false;
+            }
+            else
+            {
+                projectilePosition = transform.position + new Vector3(firePointTop.x * direction.x, firePointTop.y, firePointTop.z);
+                projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
+                projectileRB = projectile.GetComponent<Rigidbody2D>();
+            
+                
+
+                isFirePointBottom = true;
+            }
+        }
+        else
+        {
+            GameObject.Find("Camera").GetComponent<CameraFollow>().Shake(.1f, 0.03f);
+
+            projectilePosition = transform.position + new Vector3(firePoint.x * direction.x, firePoint.y, firePoint.z);
+            projectile = Instantiate(projectilePrefab, projectilePosition, Quaternion.identity);
     
-        Rigidbody2D projectileRB = projectile.GetComponent<Rigidbody2D>();
+            projectileRB = projectile.GetComponent<Rigidbody2D>();
 
-        // Apply force to the projectile
+            // Apply force to the projectile
+            
+        }
+        
         if (projectileRB != null)
         {
             projectileRB.AddForce(direction * launchForce, ForceMode2D.Impulse);

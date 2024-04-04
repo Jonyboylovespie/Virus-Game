@@ -53,7 +53,7 @@ public class TutorialManager : MonoBehaviour
             }
             else if (popupIndex == 2)
             {
-                if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab))
+                if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.M))
                 {
                     StartCoroutine(EndTutorial());
                     

@@ -123,6 +123,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tall
       objectReference: {fileID: 0}
+    - target: {fileID: 6778564456598183425, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: m_Size.y
+      value: 3.427228
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778564456598183425, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.5052886
+      objectReference: {fileID: 0}
     - target: {fileID: 7209434406066297377, guid: 8e1772201dd765643945f6ece5abfb96, type: 3}
       propertyPath: m_Radius
       value: 20
@@ -170,7 +178,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7090689634691212337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

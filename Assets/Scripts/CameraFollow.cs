@@ -14,6 +14,10 @@ public class CameraFollow : MonoBehaviour
     private float shakeDuration = 0;
     private float shakeMagnitude = 0;
 
+    void Start() {
+        fadeIn(1f);
+    }
+
     public void FixedUpdate() {
         transform.position -= new Vector3(oldShakeX, oldShakeY, 0);
         Vector3 desiredPosition = target.position + offset;
@@ -77,10 +81,6 @@ public class CameraFollow : MonoBehaviour
         texture.SetPixel(0, 0, new Color(fadeColor.r, fadeColor.g, fadeColor.b, alpha));
         texture.Apply();
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), texture);
-    }
-
-    void Start() {
-        fadeIn(1f);
     }
     
 }

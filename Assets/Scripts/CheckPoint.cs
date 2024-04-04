@@ -5,8 +5,8 @@ public class CheckPoint : MonoBehaviour
 
     void Start()
     {
-        // SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>(); // Hide the sprite when the game starts
-        // if (spriteRenderer != null) { spriteRenderer.enabled = false; }
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>(); // Hide the sprite when the game starts
+        if (spriteRenderer != null) { spriteRenderer.enabled = false; }
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

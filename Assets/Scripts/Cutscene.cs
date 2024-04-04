@@ -6,6 +6,7 @@ public class Cutscene : MonoBehaviour
 {
     public string destinationScene;
     public float secondsBeforeYouCanSkip = 5f;
+    public GameObject camera;
     bool canSkip = false;
 
     void Start()
@@ -22,9 +23,15 @@ public class Cutscene : MonoBehaviour
         {
             if (!canSkip) { return; }
             if (string.IsNullOrEmpty(destinationScene)) { return; }
-            Debug.Log("Loading scene: " + destinationScene);
-            SceneManager.LoadScene(destinationScene);
+            StartCoroutine(Continue());
         }
+    }
+
+    IEnumerator Continue()
+    {
+        camera.GetComponent<CameraFollow>().fadeOut(1f);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(destinationScene);
     }
 
     IEnumerator EnableSkip()

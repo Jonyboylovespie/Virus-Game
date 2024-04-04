@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: b0b67303e8e6c034cba6b560de700345, type: 3}
     - target: {fileID: 9051884182743606120, guid: 7f911a94c0b83544e9a717a9f26f3daf, type: 3}
       propertyPath: destinationScene
-      value: Opening Cutscene
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8680436043935581157, guid: 7f911a94c0b83544e9a717a9f26f3daf, type: 3}

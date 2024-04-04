@@ -19,6 +19,17 @@ public class Map : MonoBehaviour
             mapActive = !mapActive;
             updateMap(); 
         }
+        Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing
+        if (save == null) { return; }
+        if (!save.GetObject("", "Head")) { return; }
+        if (!save.GetObject("", "Torso")) { return; }
+        if (!save.GetObject("", "Right Arm")) { return; }
+        if (!save.GetObject("", "Left Arm")) { return; }
+        if (!save.GetObject("", "Right Leg")) { return; }
+        if (!save.GetObject("", "Left Leg")) { return; }
+
+        SceneManager.LoadScene("Final CutScene", LoadSceneMode.Single);
+
     }
 
     void updateCleared() {
@@ -26,14 +37,13 @@ public class Map : MonoBehaviour
         if (save == null) { return; }
 
         save.SaveObject("", "Head"); // Comment out... just for testing
-        //save.SaveObject("", "Torso");
+        save.SaveObject("", "Torso");
         //save.SaveObject("", "Right Arm");
-        //save.SaveObject("", "Left Arm");
+        save.SaveObject("", "Left Arm");
         save.SaveObject("", "Right Leg");
         save.SaveObject("", "Left Leg");
 
-        //Debug.Log("test"); // Comment out... just for testing
-        
+        //Debug.Log("test"); // Comment out... just for testing        
         gameObject.transform.Find("Head")?.gameObject.SetActive(!save.GetObject("", "Head") && mapActive);
         gameObject.transform.Find("Torso")?.gameObject.SetActive(!save.GetObject("", "Torso") && mapActive);
         gameObject.transform.Find("RightArm")?.gameObject.SetActive(!save.GetObject("", "Right Arm") && mapActive);

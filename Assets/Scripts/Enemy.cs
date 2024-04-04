@@ -47,6 +47,10 @@ public class Enemy : MonoBehaviour
 
                 Save save = GameObject.Find("Save").GetComponent<Save>(); //disabling for testing 
                 save.SaveObject(gameObject.name, gameObject.scene.name);
+                
+                GameObject enemies = GameObject.Find("Enemies");
+                if (enemies == null) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
+                if (enemies.transform.childCount == 1) { save.SaveObject("", gameObject.scene.name); } // save scene if no enemies are left
 
                 Destroy(gameObject);
             }else
